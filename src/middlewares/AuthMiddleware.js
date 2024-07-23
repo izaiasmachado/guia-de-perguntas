@@ -1,7 +1,13 @@
 const zod = require("../lib/zod");
 
 const registerSchema = zod.object({
-  username: zod.string().min(3).max(20),
+  username: zod
+    .string()
+    .min(3)
+    .max(20)
+    .refine((value) => !value.includes(" "), {
+      message: "O nome de usuário não pode conter espaços",
+    }),
   email: zod.string().email(),
   password: zod.string().min(6),
 });
