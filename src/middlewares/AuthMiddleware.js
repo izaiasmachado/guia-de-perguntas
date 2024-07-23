@@ -1,5 +1,4 @@
 const zod = require("../lib/zod");
-const prisma = require("../lib/prisma");
 
 const registerSchema = zod.object({
   username: zod.string().min(3).max(20),
