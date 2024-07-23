@@ -5,6 +5,8 @@ const prisma = require("./lib/prisma");
 
 const HomeController = require("./controllers/HomeController");
 const AskQuestionController = require("./controllers/AskQuestionController");
+const AuthController = require("./controllers/AuthController");
+const AuthMiddleware = require("./middlewares/AuthMiddleware");
 
 router.get("/", HomeController.index);
 
@@ -22,5 +24,12 @@ router.get("/q/:questionId", async (req, res) => {
 
   return res.render("question", { question });
 });
+
+router.post(
+  "/register",
+  AuthMiddleware.validateRegisterBody,
+  AuthMiddleware.userAlreadyExists,
+  AuthController.register
+);
 
 module.exports = router;
