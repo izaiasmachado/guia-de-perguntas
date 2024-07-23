@@ -9,4 +9,13 @@ module.exports = {
       return null;
     }
   },
+
+  async decodeUserToken(token) {
+    try {
+      const decoded = await jwt.verify(token);
+      return decoded;
+    } catch (error) {
+      return null;
+    }
+  },
 };
