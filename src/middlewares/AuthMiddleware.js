@@ -30,31 +30,6 @@ module.exports = {
     });
   },
 
-  async userAlreadyExists(req, res, next) {
-    const { username, email } = res.locals.user;
-
-    const userExists = await prisma.user.findFirst({
-      where: {
-        OR: [
-          {
-            email,
-          },
-          {
-            username,
-          },
-        ],
-      },
-    });
-
-    if (userExists) {
-      return res.status(409).json({
-        message: "O nome de usuário ou email fornecido já está em uso",
-      });
-    }
-
-    return next();
-  },
-
   async validateLoginBody(req, res, next) {
     const rawData = req.body;
     const { success, error, data } = loginSchema.safeParse(rawData);

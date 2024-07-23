@@ -2,7 +2,30 @@ const prisma = require("../lib/prisma");
 const bcrypt = require("../lib/bcrypt");
 
 module.exports = {
+  async isEmailOrUsernameAlreadyUsed(user) {
+    const userExists = await prisma.user.findFirst({
+      where: {
+        OR: [
+          {
+            email: user.email,
+          },
+          {
+            username: user.username,
+          },
+        ],
+      },
+    });
+
+    return !!userExists;
+  },
+
   async create(userData) {
+    const userExists = await this.isEmailOrUsernameAlreadyUsed(userData);
+
+    if (userExists) {
+      return null;
+    }
+
     const hashedPassword = await bcrypt.hashPassword(userData.password);
     const user = {
       ...userData,

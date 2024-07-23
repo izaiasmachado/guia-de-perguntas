@@ -29,7 +29,6 @@ router.post("/login", AuthMiddleware.validateLoginBody, AuthController.login);
 router.post(
   "/register",
   AuthMiddleware.validateRegisterBody,
-  AuthMiddleware.userAlreadyExists,
   AuthController.register
 );
 
