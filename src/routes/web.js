@@ -1,13 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const prisma = require("../lib/prisma");
 
-const prisma = require("./lib/prisma");
-
-const HomeController = require("./controllers/HomeController");
-const AskQuestionController = require("./controllers/AskQuestionController");
+const HomeController = require("../controllers/HomeController");
+const AskQuestionController = require("../controllers/AskQuestionController");
 
 router.get("/", HomeController.index);
-
 router.get("/ask", AskQuestionController.index);
 router.post("/ask", AskQuestionController.create);
 

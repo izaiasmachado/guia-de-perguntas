@@ -24,7 +24,7 @@ module.exports = {
 
     if (!success) {
       const formatted = error.format();
-      console.log(formatted);
+
       return res.render("ask-question", {
         errors: formatted,
         data: rawData,

@@ -2,7 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
-const router = require("./routes");
+const apiRouter = require("./routes/api");
+const webRouter = require("./routes/web");
 
 const app = express();
 
@@ -14,7 +15,8 @@ app.use(bodyParser.json());
 app.set("view engine", "ejs");
 app.set("views", "./src/views");
 
-app.use(router);
+app.use("/api", apiRouter);
+app.use("/", webRouter);
 app.use(express.static("public"));
 
 module.exports = app;
