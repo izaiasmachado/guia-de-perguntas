@@ -20,4 +20,28 @@ module.exports = {
     delete copyUser.password;
     return copyUser;
   },
+
+  async findUserByEmailAndPassword(email, password) {
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) {
+      return null;
+    }
+
+    const hashedPassword = user.password;
+    const isPasswordValid = await bcrypt.comparePassword(
+      password,
+      hashedPassword
+    );
+
+    if (!isPasswordValid) {
+      return null;
+    }
+
+    return this._serialize(user);
+  },
 };

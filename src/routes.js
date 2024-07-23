@@ -25,6 +25,7 @@ router.get("/q/:questionId", async (req, res) => {
   return res.render("question", { question });
 });
 
+router.post("/login", AuthMiddleware.validateLoginBody, AuthController.login);
 router.post(
   "/register",
   AuthMiddleware.validateRegisterBody,
