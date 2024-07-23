@@ -1,0 +1,9 @@
+services:
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${GUIAPERGUNTAS_MYSQL_DB}
+      MYSQL_ROOT_PASSWORD: ${GUIAPERGUNTAS_MYSQL_PASSWORD}
+    ports:
+      - "${GUIAPERGUNTAS_MYSQL_PORT}:3306"

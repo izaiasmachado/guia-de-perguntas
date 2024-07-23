@@ -1,0 +1,27 @@
+{
+  "name": "guia-perguntas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "start-db": "docker-compose up -d",
+    "start": "node src/server",
+    "dev": "node --watch src/server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^5.17.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.9",
+    "express": "^4.19.2",
+    "i18next": "^23.12.2",
+    "zod": "^3.23.8",
+    "zod-i18n-map": "^2.27.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.17.0"
+  }
+}
