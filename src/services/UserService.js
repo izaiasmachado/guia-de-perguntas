@@ -67,4 +67,18 @@ module.exports = {
 
     return this._serialize(user);
   },
+
+  async findUserById(id) {
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) {
+      return null;
+    }
+
+    return this._serialize(user);
+  },
 };

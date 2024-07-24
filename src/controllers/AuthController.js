@@ -1,4 +1,5 @@
 const UserService = require("../services/UserService");
+const AuthService = require("../services/AuthService");
 
 module.exports = {
   async register(req, res) {
@@ -25,6 +26,20 @@ module.exports = {
         message: "Email ou senha inválidos",
       });
     }
+
+    const token = await AuthService.signUserToken(user);
+
+    if (!token) {
+      return res.status(500).json({
+        message: "Não foi possível gerar o token de autenticação",
+      });
+    }
+
+    res.cookie("authorization", token, {
+      httpOnly: true,
+      secure: process.env.GUIAPERGUNTAS_NODE_ENV === "production",
+      sameSite: "none",
+    });
 
     return res.status(200).json({
       message: "Login realizado com sucesso",

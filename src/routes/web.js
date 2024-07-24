@@ -1,24 +1,18 @@
 const express = require("express");
-const router = express.Router();
-const prisma = require("../lib/prisma");
 
+const AuthMiddleware = require("../middlewares/AuthMiddleware");
 const HomeController = require("../controllers/HomeController");
 const AskQuestionController = require("../controllers/AskQuestionController");
+const QuestionController = require("../controllers/QuestionController");
 
-router.get("/", HomeController.index);
-router.get("/ask", AskQuestionController.index);
-router.post("/ask", AskQuestionController.create);
+const publicRouter = express.Router();
+const privateRouter = express.Router();
 
-router.get("/q/:questionId", async (req, res) => {
-  const { questionId } = req.params;
+publicRouter.get("/", HomeController.index);
+publicRouter.get("/q/:questionId", QuestionController.index);
 
-  const question = await prisma.question.findUnique({
-    where: {
-      id: Number(questionId),
-    },
-  });
+publicRouter.use(AuthMiddleware.checkIfUserIsAuthenticated, privateRouter);
+privateRouter.get("/ask", AskQuestionController.index);
+privateRouter.post("/ask", AskQuestionController.create);
 
-  return res.render("question", { question });
-});
-
-module.exports = router;
+module.exports = publicRouter;

@@ -1,4 +1,6 @@
 const zod = require("../lib/zod");
+const AuthService = require("../services/AuthService");
+const UserService = require("../services/UserService");
 
 const registerSchema = zod.object({
   username: zod
@@ -49,5 +51,27 @@ module.exports = {
       message: "Erro de validação no login do usuário",
       errors: formatted,
     });
+  },
+
+  async checkIfUserIsAuthenticated(req, res, next) {
+    const token = req.cookies?.authorization;
+
+    if (!token) {
+      return res.status(401).json({
+        message: "Usuário não autenticado",
+      });
+    }
+
+    const { id: userId } = await AuthService.decodeUserToken(token);
+    const userExists = await UserService.findUserById(userId);
+
+    if (!userExists) {
+      return res.status(401).json({
+        message: "Usuário não autenticado",
+      });
+    }
+
+    res.locals.user = userExists;
+    return next();
   },
 };
