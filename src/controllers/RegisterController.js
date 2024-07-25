@@ -15,9 +15,10 @@ module.exports = {
 
     if (!user) {
       return res.render("register", {
-        errors: {
+        alerts: {
           globalDanger: "O nome de usuário ou email fornecido já está em uso",
         },
+        errors: {},
         data: rawData,
       });
     }

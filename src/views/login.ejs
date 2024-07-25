@@ -39,13 +39,17 @@
             </div>
 
             <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
-              <form method="POST" action="/login">
-                <% if (errors?.global) { %>
-                <div class="alert alert-danger mt-3" role="alert">
-                  <%= errors?.global %>
-                </div>
-                <% } %>
+              <% if (typeof alerts !== 'undefined') { %>
+              <div
+                class="alert alert-danger mt-3"
+                role="alert"
+                style="display: <%= alerts?.globalDanger ? 'block' : 'none' %>"
+              >
+                <%= alerts?.globalDanger %>
+              </div>
+              <% } %>
 
+              <form method="POST" action="/login">
                 <div data-mdb-input-init class="form-outline mb-4">
                   <label class="form-label" for="emailInput">E-mail</label>
                   <input

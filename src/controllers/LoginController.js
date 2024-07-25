@@ -19,8 +19,9 @@ module.exports = {
       console.log("Email ou senha inválidos");
       console.log(email, password);
       return res.render("login", {
-        errors: {
-          global: "Email ou senha inválidos",
+        errors: {},
+        alerts: {
+          globalDanger: "Email ou senha inválidos",
         },
         data: {
           email,
