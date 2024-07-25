@@ -16,9 +16,11 @@ module.exports = {
   },
 
   async ensureUserIsAuthenticated(req, res, next) {
+    const originRoute = req.baseUrl + req.path;
+
     if (!res.locals.user) {
       return res.redirect(
-        `/auth/login?redirect=${req.originalUrl}&error=unauthenticated`
+        `/login?redirect=${originRoute}&error=unauthenticated`
       );
     }
 
