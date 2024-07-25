@@ -2,6 +2,7 @@ const express = require("express");
 
 const AuthMiddleware = require("../middlewares/AuthMiddleware");
 const LoginMiddleware = require("../middlewares/LoginMiddleware");
+const RegisterMiddleware = require("../middlewares/RegisterMiddleware");
 
 const HomeController = require("../controllers/HomeController");
 const AskQuestionController = require("../controllers/AskQuestionController");
@@ -22,7 +23,11 @@ publicRouter.post(
 );
 
 publicRouter.get("/register", RegisterController.index);
-// publicRouter.post('/register', RegisterController.create);
+publicRouter.post(
+  "/register",
+  RegisterMiddleware.validateRegisterBody,
+  RegisterController.register
+);
 
 publicRouter.use(AuthMiddleware.checkIfUserIsAuthenticated, privateRouter);
 privateRouter.get("/ask", AskQuestionController.index);
