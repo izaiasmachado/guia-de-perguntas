@@ -1,9 +1,9 @@
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 
-const apiRouter = require("./routes/api");
 const webRouter = require("./routes/web");
 
 const app = express();
@@ -17,8 +17,9 @@ app.use(bodyParser.json());
 app.set("view engine", "ejs");
 app.set("views", "./src/views");
 
-app.use("/api", apiRouter);
+const publicPath = path.join(__dirname, "..", "public");
+app.use("/public", express.static(publicPath));
+
 app.use("/", webRouter);
-app.use(express.static("public"));
 
 module.exports = app;
