@@ -56,7 +56,7 @@
               </div>
               <% } %>
 
-              <form method="POST" action="/login">
+              <form method="POST">
                 <div data-mdb-input-init class="form-outline mb-4">
                   <label class="form-label" for="emailInput">E-mail</label>
                   <input
@@ -96,11 +96,8 @@
                   <p class="text-center fw-bold mx-3 mb-0 text-muted">OU</p>
                 </div>
 
-                <!-- <button type="button" class="btn btn-outline-primary col-12" 
-                  Criar conta
-                </button> -->
-                <a href="/register" class="btn btn-outline-primary col-12">
-                  Criar conta
+                <a href="<%= data?.registerUrl %>" %>
+                  class="btn btn-outline-primary col-12"> Criar conta
                 </a>
               </form>
             </div>

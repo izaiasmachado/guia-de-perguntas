@@ -2,19 +2,37 @@ const AuthService = require("../services/AuthService");
 const UserService = require("../services/UserService");
 const { setJwtCookie } = require("../utils");
 
+const buildAlertsObject = (queryParams) => {
+  const globalSuccess =
+    queryParams?.registered === "true"
+      ? "Usuário registrado com sucesso"
+      : null;
+
+  const globalDanger =
+    queryParams?.error === "unauthenticated"
+      ? "Faça login para continuar sua navegação"
+      : null;
+
+  return {
+    globalSuccess,
+    globalDanger,
+  };
+};
+
+const buildRegisterUrl = (queryParams) => {
+  const redirectUrl = queryParams?.redirect || "/login";
+  return `/register?redirect=${redirectUrl}`;
+};
+
 module.exports = {
   async index(req, res) {
-    const { registered } = req.query;
-    const globalSuccess =
-      registered === "true" ? "Usuário registrado com sucesso" : null;
-
+    const alerts = buildAlertsObject(req.query);
     return await res.render("login", {
       errors: {},
-      data: {},
-      alerts: {
-        globalSuccess,
+      data: {
+        registerUrl: buildRegisterUrl(req.query),
       },
-      validated: false,
+      alerts,
     });
   },
 
@@ -23,8 +41,6 @@ module.exports = {
     const user = await UserService.findUserByEmailAndPassword(email, password);
 
     if (!user) {
-      console.log("Email ou senha inválidos");
-      console.log(email, password);
       return res.render("login", {
         errors: {},
         alerts: {
@@ -33,6 +49,7 @@ module.exports = {
         data: {
           email,
           password,
+          registerUrl: buildRegisterUrl(req.query),
         },
       });
     }
@@ -45,23 +62,7 @@ module.exports = {
 
     setJwtCookie(res, token);
 
-    return res.redirect("/");
+    const redirectUrl = req.query.redirect || "/";
+    return res.redirect(redirectUrl);
   },
-
-  // async create(req, res) {
-  //   const rawData = req.body;
-  //   const { success, error, data } = askQuestionSchema.safeParse(rawData);
-
-  //   if (!success) {
-  //     const formatted = error.format();
-
-  //     return res.render("login", {
-  //       errors: formatted,
-  //       data: rawData,
-  //       validated: true,
-  //     });
-  //   }
-
-  //   return res.redirect("/");
-  // },
 };
