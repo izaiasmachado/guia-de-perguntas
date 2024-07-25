@@ -7,6 +7,7 @@ const HomeController = require("../controllers/HomeController");
 const AskQuestionController = require("../controllers/AskQuestionController");
 const QuestionController = require("../controllers/QuestionController");
 const LoginController = require("../controllers/LoginController");
+const RegisterController = require("../controllers/RegisterController");
 
 const publicRouter = express.Router();
 const privateRouter = express.Router();
@@ -19,6 +20,9 @@ publicRouter.post(
   LoginMiddleware.validateLoginBody,
   LoginController.login
 );
+
+publicRouter.get("/register", RegisterController.index);
+// publicRouter.post('/register', RegisterController.create);
 
 publicRouter.use(AuthMiddleware.checkIfUserIsAuthenticated, privateRouter);
 privateRouter.get("/ask", AskQuestionController.index);
