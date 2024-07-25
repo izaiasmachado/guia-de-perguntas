@@ -47,6 +47,13 @@
               >
                 <%= alerts?.globalDanger %>
               </div>
+              <div
+                class="alert alert-success mt-3"
+                role="alert"
+                style="display: <%= alerts?.globalSuccess ? 'block' : 'none' %>"
+              >
+                <%= alerts?.globalSuccess %>
+              </div>
               <% } %>
 
               <form method="POST" action="/login">

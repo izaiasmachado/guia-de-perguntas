@@ -4,9 +4,16 @@ const { setJwtCookie } = require("../utils");
 
 module.exports = {
   async index(req, res) {
+    const { registered } = req.query;
+    const globalSuccess =
+      registered === "true" ? "Usuário registrado com sucesso" : null;
+
     return await res.render("login", {
       errors: {},
       data: {},
+      alerts: {
+        globalSuccess,
+      },
       validated: false,
     });
   },
