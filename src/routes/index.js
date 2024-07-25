@@ -9,7 +9,7 @@ const privateRouter = require("./private");
 
 router.use(AuthMiddleware.loadUserIfTokenIsGiven);
 router.use("/", guestRouter);
-router.use("/", privateRouter);
-router.use("/", publicRouter);
+router.use("/auth", publicRouter);
+router.use("/", AuthMiddleware.ensureUserIsAuthenticated, privateRouter);
 
 module.exports = router;

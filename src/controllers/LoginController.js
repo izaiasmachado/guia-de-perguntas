@@ -20,7 +20,7 @@ const buildAlertsObject = (queryParams) => {
 };
 
 const buildRegisterUrl = (queryParams) => {
-  const redirectUrl = queryParams?.redirect || "/login";
+  const redirectUrl = queryParams?.redirect || "/auth/login";
   return `/register?redirect=${redirectUrl}`;
 };
 
