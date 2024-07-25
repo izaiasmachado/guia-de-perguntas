@@ -2,7 +2,7 @@ const UserService = require("../services/UserService");
 
 const buildLoginUrl = (queryParams) => {
   const redirectUrl = queryParams?.redirect || "/";
-  return `/login?redirect=${redirectUrl}`;
+  return `/auth/login?redirect=${redirectUrl}`;
 };
 
 module.exports = {
@@ -34,6 +34,6 @@ module.exports = {
     }
 
     const redirectUrl = req.query.redirect || "/";
-    return res.redirect(`/login?registered=true&redirect=${redirectUrl}`);
+    return res.redirect(`/auth/login?registered=true&redirect=${redirectUrl}`);
   },
 };

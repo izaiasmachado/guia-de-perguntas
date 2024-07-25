@@ -20,7 +20,7 @@ module.exports = {
 
     if (!res.locals.user) {
       return res.redirect(
-        `/login?redirect=${originRoute}&error=unauthenticated`
+        `/auth/login?redirect=${originRoute}&error=unauthenticated`
       );
     }
 
