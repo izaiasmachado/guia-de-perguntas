@@ -24,4 +24,12 @@ module.exports = {
 
     return next();
   },
+
+  async ensureUserIsNotAuthenticated(req, res, next) {
+    if (res.locals.user) {
+      return res.redirect("/");
+    }
+
+    return next();
+  },
 };

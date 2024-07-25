@@ -8,8 +8,8 @@ const guestRouter = require("./guest");
 const privateRouter = require("./private");
 
 router.use(AuthMiddleware.loadUserIfTokenIsGiven);
-router.use("/", publicRouter);
 router.use("/", guestRouter);
 router.use("/", privateRouter);
+router.use("/", publicRouter);
 
 module.exports = router;
