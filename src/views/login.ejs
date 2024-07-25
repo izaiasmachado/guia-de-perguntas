@@ -39,26 +39,45 @@
             </div>
 
             <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
-              <form>
+              <form method="POST" action="/login">
+                <% if (errors?.global) { %>
+                <div class="alert alert-danger mt-3" role="alert">
+                  <%= errors?.global %>
+                </div>
+                <% } %>
+
                 <div data-mdb-input-init class="form-outline mb-4">
                   <label class="form-label" for="emailInput">E-mail</label>
                   <input
+                    name="email"
                     type="email"
-                    id="emailInput"
-                    class="form-control form-control-lg"
+                    class="form-control form-control-lg <%= errors?.email ? 'is-invalid' : '' %>"
+                    value="<%= data?.email %>"
+                    aria-describedby="validationServerSideEmail"
                   />
+                  <div id="validationServerSideEmail" class="invalid-feedback">
+                    <%= errors?.email?._errors?.[0] %>
+                  </div>
                 </div>
 
                 <div data-mdb-input-init class="form-outline mb-4">
                   <label class="form-label" for="passwordInput">Senha</label>
                   <input
+                    name="password"
                     type="password"
-                    id="passwordInput"
-                    class="form-control form-control-lg"
+                    class="form-control form-control-lg <%= errors?.password ? 'is-invalid' : '' %>"
+                    value="<%= data?.password %>"
+                    aria-describedby="validationServerSidePassword"
                   />
+                  <div
+                    id="validationServerSidePassword"
+                    class="invalid-feedback"
+                  >
+                    <%= errors?.password?._errors?.[0] %>
+                  </div>
                 </div>
 
-                <button type="button" class="btn btn-primary col-12">
+                <button type="submit" class="btn btn-primary col-12">
                   Entrar
                 </button>
 
