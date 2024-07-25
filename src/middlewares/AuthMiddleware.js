@@ -2,25 +2,24 @@ const AuthService = require("../services/AuthService");
 const UserService = require("../services/UserService");
 
 module.exports = {
-  async checkIfUserIsAuthenticated(req, res, next) {
+  async loadUserIfTokenIsGiven(req, res, next) {
     const token = req.cookies?.authorization;
+    const tokenPayload = await AuthService.decodeUserToken(token);
+    const userExists = await UserService.findUserById(tokenPayload?.id);
 
-    if (!token) {
-      return res.status(401).json({
-        message: "Usuário não autenticado",
-      });
-    }
-
-    const { id: userId } = await AuthService.decodeUserToken(token);
-    const userExists = await UserService.findUserById(userId);
-
-    if (!userExists) {
-      return res.status(401).json({
-        message: "Usuário não autenticado",
-      });
+    if (!token || !tokenPayload || !userExists) {
+      return next();
     }
 
     res.locals.user = userExists;
+    return next();
+  },
+
+  async ensureUserIsAuthenticated(req, res, next) {
+    if (!res.locals.user) {
+      return res.redirect("/login");
+    }
+
     return next();
   },
 };

@@ -8,7 +8,7 @@ const AskQuestionController = require("../controllers/AskQuestionController");
 
 const router = express.Router();
 
-router.use(AuthMiddleware.checkIfUserIsAuthenticated);
+router.use(AuthMiddleware.ensureUserIsAuthenticated);
 router.get("/ask", AskQuestionController.index);
 router.post("/ask", AskQuestionController.create);
 
