@@ -4,7 +4,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 
-const webRouter = require("./routes/web");
+const router = require("./routes");
 
 const app = express();
 
@@ -20,6 +20,6 @@ app.set("views", "./src/views");
 const publicPath = path.join(__dirname, "..", "public");
 app.use("/public", express.static(publicPath));
 
-app.use("/", webRouter);
+app.use("/", router);
 
 module.exports = app;
