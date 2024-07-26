@@ -12,9 +12,23 @@ module.exports = {
     });
   },
 
-  async createAnswer(answerData) {
+  async getQuestion(questionId) {
+    return await prisma.question.findUnique({
+      where: {
+        id: Number(questionId),
+      },
+    });
+  },
+
+  async createAnswer(answer, question, author) {
+    const data = {
+      ...answer,
+      questionId: question.id,
+      authorId: author.id,
+    };
+
     await prisma.answer.create({
-      data: answerData,
+      data,
     });
   },
 

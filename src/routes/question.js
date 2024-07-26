@@ -3,6 +3,7 @@ const router = express.Router();
 
 const AuthMiddleware = require("../middlewares/AuthMiddleware");
 const AskQuestionMiddleware = require("../middlewares/AskQuestionMiddleware");
+const QuestionMiddleware = require("../middlewares/QuestionMiddleware");
 
 const QuestionController = require("../controllers/QuestionController");
 const AskQuestionController = require("../controllers/AskQuestionController");
@@ -21,8 +22,14 @@ router.post(
 router.post(
   "/:questionId/answers",
   AuthMiddleware.ensureUserIsAuthenticated,
+  QuestionMiddleware.findQuestion,
+  QuestionMiddleware.validatePostAnswerBody,
   QuestionController.createAnswer
 );
-router.get("/:questionId", QuestionController.index);
+router.get(
+  "/:questionId",
+  QuestionMiddleware.findQuestion,
+  QuestionController.index
+);
 
 module.exports = router;

@@ -18,22 +18,14 @@ module.exports = {
 
   async createAnswer(req, res) {
     const { questionId } = req.params;
-    const { content } = req.body;
-    const userId = res.locals.user.id; 
+    const { answer, user } = res.locals;
+    const question = await QuestionService.getQuestion(questionId);
 
-    try {
-      answerData = {
-        content,
-        questionId: Number(questionId),
-        authorId: userId,
-      }
-
-      await QuestionService.createAnswer(answerData);
-
-      return res.redirect(`/q/${questionId}`);
-    } catch (error) {
-      console.error("Erro ao criar resposta:", error);
-      res.status(500).send("Erro ao criar resposta");
+    if (!question) {
+      return res.status(404).send("Pergunta não encontrada");
     }
+
+    await QuestionService.createAnswer(answer, question, user);
+    return res.redirect(`/q/${questionId}`);
   },
 };
