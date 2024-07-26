@@ -17,6 +17,9 @@ module.exports = {
       where: {
         id: Number(questionId),
       },
+      include: {
+        author: true,
+      },
     });
   },
 
