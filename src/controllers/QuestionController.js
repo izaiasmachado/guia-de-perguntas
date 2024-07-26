@@ -19,7 +19,6 @@ module.exports = {
   async createAnswer(req, res) {
     const { questionId } = req.params;
     const { content } = req.body;
-    console.log(res.locals)
     const userId = res.locals.user.id; 
 
     try {
