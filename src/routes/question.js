@@ -15,6 +15,11 @@ router.post(
   AuthMiddleware.ensureUserIsAuthenticated,
   AskQuestionController.create
 );
+router.post(
+  "/:questionId/answers",
+  AuthMiddleware.ensureUserIsAuthenticated,
+  QuestionController.createAnswer
+);
 router.get("/:questionId", QuestionController.index);
 
 module.exports = router;
