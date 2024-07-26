@@ -21,6 +21,7 @@ module.exports = {
   async create(req, res) {
     const rawData = req.body;
     const { success, error, data } = askQuestionSchema.safeParse(rawData);
+    const authorId = res.locals.user.id;
 
     if (!success) {
       const formatted = error.format();
@@ -33,7 +34,10 @@ module.exports = {
     }
 
     await prisma.question.create({
-      data,
+      data: {
+        ...data,
+        authorId,
+      },
     });
 
     return res.redirect("/");
