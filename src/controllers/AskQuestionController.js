@@ -13,7 +13,7 @@ module.exports = {
 
   async create(req, res) {
     const { user, askedQuestion } = res.locals;
-    await QuestionService.createQuestion(askedQuestion, user);
-    return res.redirect("/");
+    const question = await QuestionService.createQuestion(askedQuestion, user);
+    return res.redirect(`/q/${question.id}`);
   },
 };

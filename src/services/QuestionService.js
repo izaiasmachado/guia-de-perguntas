@@ -7,7 +7,7 @@ module.exports = {
       authorId: author.id,
     };
 
-    await prisma.question.create({
+    return await prisma.question.create({
       data,
     });
   },
