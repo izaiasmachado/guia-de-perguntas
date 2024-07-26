@@ -20,6 +20,14 @@ module.exports = {
     });
   },
 
+  async getAllQuestions() {
+    return await prisma.question.findMany({
+      include: {
+        author: true,
+      },
+    });
+  },
+
   async createAnswer(answer, question, author) {
     const data = {
       ...answer,
