@@ -1,10 +1,17 @@
 const UserService = require("../services/UserService");
 
+const buildLoginUrl = (queryParams) => {
+  const redirectUrl = queryParams?.redirect || "/";
+  return `/auth/login?redirect=${redirectUrl}`;
+};
+
 module.exports = {
   index(req, res) {
     return res.render("register", {
       errors: {},
-      data: {},
+      data: {
+        loginUrl: buildLoginUrl(req.query),
+      },
       validated: false,
     });
   },
@@ -19,10 +26,14 @@ module.exports = {
           globalDanger: "O nome de usuário ou email fornecido já está em uso",
         },
         errors: {},
-        data: rawData,
+        data: {
+          ...rawData,
+          loginUrl: buildLoginUrl(req.query),
+        },
       });
     }
 
-    return res.redirect("/login?registered=true");
+    const redirectUrl = req.query.redirect || "/";
+    return res.redirect(`/auth/login?registered=true&redirect=${redirectUrl}`);
   },
 };
