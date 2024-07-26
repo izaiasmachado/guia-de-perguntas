@@ -10,6 +10,11 @@ router.get(
   AuthMiddleware.ensureUserIsAuthenticated,
   AskQuestionController.index
 );
+router.post(
+  "/ask",
+  AuthMiddleware.ensureUserIsAuthenticated,
+  AskQuestionController.create
+);
 router.get("/:questionId", QuestionController.index);
 
 module.exports = router;
