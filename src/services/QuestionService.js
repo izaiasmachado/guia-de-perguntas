@@ -53,4 +53,24 @@ module.exports = {
       },
     });
   },
+
+  async searchQuestions(searchQuery) {
+    return await prisma.question.findMany({
+      where: {
+        OR: [
+          {
+            title: {
+              contains: searchQuery,
+            },
+          },
+          {
+            content: {
+              contains: searchQuery,
+            },
+          },
+        ],
+      },
+      include: { author: true}
+    });
+  }
 };

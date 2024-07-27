@@ -3,10 +3,14 @@ const QuestionService = require("../services/QuestionService");
 
 module.exports = {
   async index(req, res) {
-    const questions = await QuestionService.getAllQuestions();
+    const { search } = req.query;
+    const questions = search?
+                      await QuestionService.searchQuestions(search): 
+                      await QuestionService.getAllQuestions();
 
     return renderTemplate(res, "index", {
       questions,
+      search,
     });
   },
 };
