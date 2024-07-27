@@ -22,42 +22,55 @@
       <%- include('partials/navbar') %>
 
       <main class="container col-11 col-md-8 mt-3 mb-3">
-        <div class="container">
-          <h2><%= question.title %></h2>
-
-          <hr />
-
-          <div class=""><%= question.content %></div>
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title"><%= question.title %></h2>
+            <hr />
+            <div class="card-text"><%= question.content %></div>
+            <p class="card-text">
+              <small class="text-muted">
+                Postado por <strong><%= question.author.username %></strong>
+                em <%= new Date(question.createdAt).toLocaleString("pt-BR") %>
+              </small>
+            </p>
+          </div>
         </div>
         <!--Div para exibir respostas-->
         <div class="container mt-3">
           <h4>Respostas</h4>
           <hr />
-          <% if (answers.length > 0) { %>
-            <% answers.forEach((answer) => { %>
-              <div class="card mb-3">
-                <div class="card-body">
-                  <h5 class="card-title"><%= answer.author.username %></h5>
-                  <p class="card-text"><%= answer.content %></p>
-                  <p class="card-text">
-                    <small class="text-muted">Postado em <%= new Date(answer.createdAt).toLocaleString("pt-BR") %></small>
-                  </p>
-                </div>
-              </div>
-            <% }); %>
-          <% } else { %>
-            <p>Não há respostas ainda.</p>
+          <% if (answers.length > 0) { %> <% answers.forEach((answer) => { %>
+          <div class="card mb-3">
+            <div class="card-body">
+              <h5 class="card-title"><%= answer.author.username %></h5>
+              <p class="card-text"><%= answer.content %></p>
+              <p class="card-text">
+                <small class="text-muted"
+                  >Postado em <%= new
+                  Date(answer.createdAt).toLocaleString("pt-BR") %></small
+                >
+              </p>
+            </div>
+          </div>
+          <% }); %> <% } else { %>
+          <p>Não há respostas ainda.</p>
           <% } %>
         </div>
-        
+
         <!--Form para enviar respostas-->
         <div class="container mt-3">
-          <hr>
+          <hr />
           <h4>Adicionar uma resposta</h4>
           <form action="/q/<%= question.id %>/answers" method="POST">
             <div class="mb-3">
               <label for="content" class="form-label">Sua resposta</label>
-              <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
+              <textarea
+                class="form-control"
+                id="content"
+                name="content"
+                rows="3"
+                required
+              ></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Enviar</button>
           </form>

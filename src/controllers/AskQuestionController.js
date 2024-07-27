@@ -1,10 +1,4 @@
-const zod = require("../lib/zod");
-const prisma = require("../lib/prisma");
-
-const askQuestionSchema = zod.object({
-  title: zod.string().min(1),
-  content: zod.string().min(1),
-});
+const QuestionService = require("../services/QuestionService");
 
 module.exports = {
   index(req, res) {
@@ -14,28 +8,12 @@ module.exports = {
         title: "",
         content: "",
       },
-      validated: false,
     });
   },
 
   async create(req, res) {
-    const rawData = req.body;
-    const { success, error, data } = askQuestionSchema.safeParse(rawData);
-
-    if (!success) {
-      const formatted = error.format();
-
-      return res.render("ask-question", {
-        errors: formatted,
-        data: rawData,
-        validated: true,
-      });
-    }
-
-    await prisma.question.create({
-      data,
-    });
-
-    return res.redirect("/");
+    const { user, askedQuestion } = res.locals;
+    const question = await QuestionService.createQuestion(askedQuestion, user);
+    return res.redirect(`/q/${question.id}`);
   },
 };
