@@ -14,7 +14,11 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-
+    <style>
+      .best-answer {
+        border: 2px solid gold;
+      }
+    </style>
     <title><%= question.title %></title>
   </head>
   <body class="container-fluid p-0 m-0 h-100">
@@ -35,29 +39,40 @@
             </p>
           </div>
         </div>
-        <!--Div para exibir respostas-->
+
+        <!-- Div para exibir respostas -->
         <div class="container mt-3">
           <h4>Respostas</h4>
           <hr />
-          <% if (answers.length > 0) { %> <% answers.forEach((answer) => { %>
-          <div class="card mb-3">
-            <div class="card-body">
-              <h5 class="card-title"><%= answer.author.username %></h5>
-              <p class="card-text"><%= answer.content %></p>
-              <p class="card-text">
-                <small class="text-muted"
-                  >Postado em <%= new
-                  Date(answer.createdAt).toLocaleString("pt-BR") %></small
-                >
-              </p>
-            </div>
-          </div>
-          <% }); %> <% } else { %>
-          <p>Não há respostas ainda.</p>
+          <% if (answers.length > 0) { %>
+            <% answers.forEach((answer) => { %>
+              <div class="card mb-3 <%= answer.isBest ? 'best-answer' : '' %>">
+                <div class="card-body">
+                  <h5 class="card-title"><%= answer.author.username %></h5>
+                  <p class="card-text"><%= answer.content %></p>
+                  <p class="card-text">
+                    <small class="text-muted">
+                      Postado em <%= new Date(answer.createdAt).toLocaleString("pt-BR") %>
+                    </small>
+                  </p>
+                  <% if (question.author.id === user.id) { %>
+                    <button
+                      class="btn btn-outline-primary mark-best-btn"
+                      data-answer-id="<%= answer.id %>"
+                      data-question-id="<%= question.id %>"
+                    >
+                      Marcar como melhor resposta
+                    </button>
+                  <% } %>
+                </div>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <p>Não há respostas ainda.</p>
           <% } %>
         </div>
 
-        <!--Form para enviar respostas-->
+        <!-- Form para enviar respostas -->
         <div class="container mt-3">
           <hr />
           <h4>Adicionar uma resposta</h4>
@@ -77,5 +92,39 @@
         </div>
       </main>
     </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const buttons = document.querySelectorAll(".mark-best-btn");
+
+        buttons.forEach((button) => {
+          button.addEventListener("click", async function () {
+            const answerId = this.getAttribute("data-answer-id");
+            const questionId = this.getAttribute("data-question-id");
+
+            try {
+              const response = await fetch(`/q/${questionId}/answers/${answerId}/best`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              });
+
+              if (response.ok) {
+                document.querySelectorAll(".best-answer").forEach((el) => {
+                  el.classList.remove("best-answer");
+                });
+                this.closest(".card").classList.add("best-answer");
+              } else {
+                alert("Erro ao marcar a resposta como a melhor.");
+              }
+            } catch (error) {
+              console.error("Erro:", error);
+              alert("Erro ao marcar a resposta como a melhor.");
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>
