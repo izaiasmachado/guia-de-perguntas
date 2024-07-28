@@ -51,6 +51,14 @@ module.exports = {
       include: {
         author: true,
       },
+      orderBy: [
+        {
+          isBest: 'desc',
+        },
+        {
+          createdAt: 'asc',
+        },
+      ],
     });
   },
 
