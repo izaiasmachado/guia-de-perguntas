@@ -31,5 +31,11 @@ router.get(
   QuestionMiddleware.findQuestion,
   QuestionController.index
 );
+router.post(
+  "/:questionId/answers/:answerId/best",
+  AuthMiddleware.ensureUserIsAuthenticated,
+  QuestionMiddleware.findQuestion,
+  QuestionController.markAsBest
+);
 
 module.exports = router;

@@ -13,4 +13,10 @@ module.exports = {
     await QuestionService.createAnswer(answer, question, user);
     return res.redirect(`/q/${questionId}`);
   },
+
+  async markAsBest(req, res) {
+    const { answerId } = req.params;
+    await QuestionService.markAsBestAnswer(answerId);
+    return res.json({ success: true });
+  },
 };
