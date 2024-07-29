@@ -74,6 +74,7 @@
                   </small>
                 </p>
                 <% if (isAuthenticated && question.author.id === user?.id) { %>
+                <% if (!answer.isBest) { %>
                 <button
                   class="btn btn-outline-primary mark-best-btn"
                   data-answer-id="<%= answer.id %>"
@@ -81,7 +82,15 @@
                 >
                   Marcar como melhor resposta
                 </button>
-                <% } %>
+                <% } else {%>
+                <button
+                  class="btn btn-outline-danger mark-best-btn"
+                  data-answer-id="<%= answer.id %>"
+                  data-question-id="<%= question.id %>"
+                >
+                  Desmarcar como melhor resposta
+                </button>
+                <% } %> <% } %>
               </div>
             </div>
             <% }); %> <% } else { %>

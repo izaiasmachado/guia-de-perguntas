@@ -92,7 +92,7 @@ module.exports = {
         bestOf: true,
       },
       orderBy: {
-        updatedAt: "desc",
+        createdAt: "asc",
       },
     });
 
@@ -134,6 +134,31 @@ module.exports = {
       where: { id: Number(answer.questionId) },
       data: {
         bestAnswerId: answer.id,
+      },
+    });
+
+    const updatedAnswer = await prisma.answer.findUnique({
+      where: {
+        id: Number(answerId),
+      },
+    });
+
+    return this._serializeAnswer(updatedAnswer);
+  },
+
+  async unmarkAsBestAnswer(answerId) {
+    const answer = await prisma.answer.findUnique({
+      where: { id: Number(answerId) },
+    });
+
+    if (!answerId || !answer) {
+      return;
+    }
+
+    await prisma.question.update({
+      where: { id: Number(answer.questionId) },
+      data: {
+        bestAnswerId: null,
       },
     });
 
