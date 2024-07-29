@@ -18,7 +18,7 @@ module.exports = {
 
     const formatted = error.format();
 
-    return renderTemplate(res, "ask-question", {
+    return await renderTemplate(res, "ask-question", {
       errors: formatted,
       data: rawData,
       validated: true,

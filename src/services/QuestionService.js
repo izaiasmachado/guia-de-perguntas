@@ -38,8 +38,15 @@ module.exports = {
       authorId: author.id,
     };
 
-    await prisma.answer.create({
+    const newAnswer = await prisma.answer.create({
       data,
+    });
+
+    await prisma.notifications.create({
+      data: {
+        userId: question.authorId,
+        answerId: newAnswer.id,
+      },
     });
   },
 
@@ -70,7 +77,18 @@ module.exports = {
           },
         ],
       },
-      include: { author: true}
+      include: { author: true },
     });
-  }
+  },
+
+  async markAnswersAsRead(questionId) {
+    return await prisma.answer.updateMany({
+      where: {
+        questionId: Number(questionId),
+      },
+      data: {
+        isRead: true,
+      },
+    });
+  },
 };

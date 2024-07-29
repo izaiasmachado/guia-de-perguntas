@@ -34,6 +34,7 @@ model User {
   posts    Question[]
   profile  Profile?
   Answer   Answer[]
+  Notifications Notifications[]
 }
 
 model Answer {
@@ -45,4 +46,15 @@ model Answer {
   authorId   Int
   question   Question @relation(fields: [questionId], references: [id])
   questionId Int
+  notification  Notifications?
+}
+
+model Notifications {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  user     User     @relation(fields: [userId], references: [id])
+  userId   Int
+  answer   Answer    @relation(fields: [answerId], references: [id])
+  answerId Int     @unique
+  isRead     Boolean  @default(false)
 }
