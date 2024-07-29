@@ -80,15 +80,4 @@ module.exports = {
       include: { author: true },
     });
   },
-
-  async markAnswersAsRead(questionId) {
-    return await prisma.answer.updateMany({
-      where: {
-        questionId: Number(questionId),
-      },
-      data: {
-        isRead: true,
-      },
-    });
-  },
 };

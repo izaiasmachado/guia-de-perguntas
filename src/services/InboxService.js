@@ -9,8 +9,6 @@ module.exports = {
 
       const inboxMessages = await this.handleGetUnreadAnswersForUser(user.id);
 
-      console.log(inboxMessages);
-
       return inboxMessages;
     } catch (error) {
       return null;
@@ -29,6 +27,27 @@ module.exports = {
             question: true,
           },
         },
+      },
+    });
+  },
+
+  async markAnswersAsRead(answerId) {
+    const notification = await prisma.notifications.findFirst({
+      where: {
+        answerId,
+      },
+    });
+
+    if (!notification) {
+      return null;
+    }
+
+    return await prisma.notifications.update({
+      where: {
+        answerId,
+      },
+      data: {
+        isRead: true,
       },
     });
   },

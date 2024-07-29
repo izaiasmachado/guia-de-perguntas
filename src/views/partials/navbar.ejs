@@ -29,8 +29,8 @@
         Inbox 🔔
       </button>
       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="inboxDropdown">
-        <% if (typeof inboxMessages !== 'undefined' && inboxMessages.length > 0) { %> <%
-        inboxMessages.forEach(function(message) { %>
+        <% if (typeof inboxMessages !== 'undefined' && Array.isArray(inboxMessages) &&
+        inboxMessages.length > 0) { %> <% inboxMessages.forEach(function(message) { %>
         <li>
           <a class="dropdown-item text-truncate" href="/q/<%= message.answer.question.id %>"
             ><%= message.answer.content %></a
