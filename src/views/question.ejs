@@ -56,34 +56,36 @@
           <h4>Respostas</h4>
           <hr />
           <div id="answers-container">
-            <% if (answers.length > 0) { %>
-              <% answers.forEach((answer) => { %>
-                <div class="card mb-3 answer-card <%= answer.isBest ? 'best-answer' : '' %>" data-answer-id="<%= answer.id %>">
-                  <div class="card-body">
-                    <% if (answer.isBest) { %>
-                      <div class="best-answer-badge">Melhor Resposta</div>
-                    <% } %>
-                    <h5 class="card-title"><%= answer.author.username %></h5>
-                    <p class="card-text"><%= answer.content %></p>
-                    <p class="card-text">
-                      <small class="text-muted">
-                        Postado em <%= new Date(answer.createdAt).toLocaleString("pt-BR") %>
-                      </small>
-                    </p>
-                    <% if (question.author.id === user.id) { %>
-                      <button
-                        class="btn btn-outline-primary mark-best-btn"
-                        data-answer-id="<%= answer.id %>"
-                        data-question-id="<%= question.id %>"
-                      >
-                        Marcar como melhor resposta
-                      </button>
-                    <% } %>
-                  </div>
-                </div>
-              <% }); %>
-            <% } else { %>
-              <p>Não há respostas ainda.</p>
+            <% if (answers.length > 0) { %> <% answers.forEach((answer) => { %>
+            <div
+              class="card mb-3 answer-card <%= answer.isBest ? 'best-answer' : '' %>"
+              data-answer-id="<%= answer.id %>"
+            >
+              <div class="card-body">
+                <% if (answer.isBest) { %>
+                <div class="best-answer-badge">Melhor Resposta</div>
+                <% } %>
+                <h5 class="card-title"><%= answer.author.username %></h5>
+                <p class="card-text"><%= answer.content %></p>
+                <p class="card-text">
+                  <small class="text-muted">
+                    Postado em <%= new
+                    Date(answer.createdAt).toLocaleString("pt-BR") %>
+                  </small>
+                </p>
+                <% if (isAuthenticated && question.author.id === user?.id) { %>
+                <button
+                  class="btn btn-outline-primary mark-best-btn"
+                  data-answer-id="<%= answer.id %>"
+                  data-question-id="<%= question.id %>"
+                >
+                  Marcar como melhor resposta
+                </button>
+                <% } %>
+              </div>
+            </div>
+            <% }); %> <% } else { %>
+            <p>Não há respostas ainda.</p>
             <% } %>
           </div>
         </div>
@@ -120,18 +122,20 @@
             const questionId = this.getAttribute("data-question-id");
 
             try {
-              const response = await fetch(`/q/${questionId}/answers/${answerId}/best`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              });
+              const response = await fetch(
+                `/q/${questionId}/answers/${answerId}/best`,
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
 
               if (response.ok) {
-               
                 document.querySelectorAll(".best-answer").forEach((el) => {
                   el.classList.remove("best-answer");
-                  const badge = el.querySelector('.best-answer-badge');
+                  const badge = el.querySelector(".best-answer-badge");
                   if (badge) {
                     badge.remove();
                   }
@@ -139,12 +143,13 @@
 
                 const answerCard = this.closest(".answer-card");
                 answerCard.classList.add("best-answer");
-                const badge = document.createElement('div');
-                badge.classList.add('best-answer-badge');
-                badge.innerText = 'Melhor Resposta';
-                answerCard.querySelector('.card-body').prepend(badge);
+                const badge = document.createElement("div");
+                badge.classList.add("best-answer-badge");
+                badge.innerText = "Melhor Resposta";
+                answerCard.querySelector(".card-body").prepend(badge);
 
-                const answersContainer = document.getElementById("answers-container");
+                const answersContainer =
+                  document.getElementById("answers-container");
                 answersContainer.prepend(answerCard);
               } else {
                 alert("Erro ao marcar a resposta como a melhor.");
