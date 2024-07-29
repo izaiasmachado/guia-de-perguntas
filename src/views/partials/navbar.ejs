@@ -32,9 +32,19 @@
         <% if (typeof inboxMessages !== 'undefined' && Array.isArray(inboxMessages) &&
         inboxMessages.length > 0) { %> <% inboxMessages.forEach(function(message) { %>
         <li>
-          <a class="dropdown-item text-truncate" href="/q/<%= message.answer.question.id %>"
-            ><%= message.answer.content %></a
+          <a
+            class="dropdown-item text-truncate"
+            href="/q/<%= message.answer.question.id %>"
+            style="<%= message.isRead ? '' : 'font-weight: bold;' %>"
           >
+            <div><strong>Pergunta:</strong> <%= message.answer.question.title %></div>
+            <div><strong>Resposta:</strong> <%= message.answer.content %></div>
+            <div>
+              <small
+                ><em>Recebida em: <%= new Date(message.createdAt).toLocaleString() %></em></small
+              >
+            </div>
+          </a>
         </li>
         <% }); %> <% } else { %>
         <li><a class="dropdown-item" href="#">No new messages</a></li>
