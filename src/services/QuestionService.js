@@ -58,6 +58,14 @@ module.exports = {
       include: {
         author: true,
       },
+      orderBy: [
+        {
+          isBest: "desc",
+        },
+        {
+          createdAt: "asc",
+        },
+      ],
     });
   },
 
@@ -78,6 +86,36 @@ module.exports = {
         ],
       },
       include: { author: true },
+    });
+  },
+
+  async markAsBestAnswer(answerId) {
+    const answer = await prisma.answer.findUnique({
+      where: { id: Number(answerId) },
+      include: { question: true },
+    });
+
+    if (!answer) {
+      throw new Error("Resposta não encontrada");
+    }
+
+    await prisma.answer.updateMany({
+      where: {
+        questionId: answer.questionId,
+        isBest: true,
+      },
+      data: {
+        isBest: false,
+      },
+    });
+
+    return await prisma.answer.update({
+      where: {
+        id: Number(answerId),
+      },
+      data: {
+        isBest: true,
+      },
     });
   },
 };

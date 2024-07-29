@@ -42,6 +42,7 @@ model Answer {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   content    String
+  isBest     Boolean  @default(false) 
   author     User     @relation(fields: [authorId], references: [id])
   authorId   Int
   question   Question @relation(fields: [questionId], references: [id])
