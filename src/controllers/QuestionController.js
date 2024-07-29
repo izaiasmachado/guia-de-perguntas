@@ -4,7 +4,7 @@ const { renderTemplate } = require("../utils");
 module.exports = {
   async index(req, res) {
     const { question } = res.locals;
-    const answers = await QuestionService.getAnswers(question.id);
+    const answers = await QuestionService.getQuestionAnswers(question.id);
     return renderTemplate(res, "question", { question, answers });
   },
 

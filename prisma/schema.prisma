@@ -8,14 +8,16 @@ datasource db {
 }
 
 model Question {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String
-  content   String
-  answers   Answer[]
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  title        String
+  content      String
+  answers      Answer[] @relation("QuestionAnswers")
+  bestAnswer   Answer?  @relation("QuestionBestAnswer", fields: [bestAnswerId], references: [id])
+  bestAnswerId Int?     @unique
+  author       User     @relation("UserQuestions", fields: [authorId], references: [id])
+  authorId     Int
 }
 
 model Profile {
@@ -31,19 +33,19 @@ model User {
   username String     @unique
   name     String?
   password String
-  posts    Question[]
   profile  Profile?
-  Answer   Answer[]
+  posts    Question[] @relation("UserQuestions")
+  answers  Answer[]   @relation("UserAnswers")
 }
 
 model Answer {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id         Int        @id @default(autoincrement())
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
   content    String
-  isBest     Boolean  @default(false) 
-  author     User     @relation(fields: [authorId], references: [id])
+  author     User       @relation("UserAnswers", fields: [authorId], references: [id])
   authorId   Int
-  question   Question @relation(fields: [questionId], references: [id])
+  question   Question   @relation("QuestionAnswers", fields: [questionId], references: [id])
   questionId Int
+  bestOf     Question? @relation("QuestionBestAnswer")
 }
