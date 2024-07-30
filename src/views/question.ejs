@@ -75,21 +75,24 @@
                 </p>
                 <% if (isAuthenticated && question.author.id === user?.id) { %>
                 <% if (!answer.isBest) { %>
-                <button
-                  class="btn btn-outline-primary mark-best-btn"
-                  data-answer-id="<%= answer.id %>"
-                  data-question-id="<%= question.id %>"
+
+                <form
+                  action="/answer/<%= answer.id %>/mark-solution"
+                  method="POST"
                 >
-                  Marcar como melhor resposta
-                </button>
+                  <button class="btn btn-outline-primary mark-best-btn">
+                    Marcar como melhor resposta
+                  </button>
+                </form>
                 <% } else {%>
-                <button
-                  class="btn btn-outline-danger mark-best-btn"
-                  data-answer-id="<%= answer.id %>"
-                  data-question-id="<%= question.id %>"
+                <form
+                  action="/answer/<%= answer.id %>/unmark-solution"
+                  method="POST"
                 >
-                  Desmarcar como melhor resposta
-                </button>
+                  <button class="btn btn-outline-danger mark-best-btn">
+                    Desmarcar como melhor resposta
+                  </button>
+                </form>
                 <% } %> <% } %>
               </div>
             </div>
@@ -103,7 +106,7 @@
         <div class="container mt-3">
           <hr />
           <h4>Adicionar uma resposta</h4>
-          <form action="/q/<%= question.id %>/answers" method="POST">
+          <form action="/answer" method="POST">
             <div class="mb-3">
               <label for="content" class="form-label">Sua resposta</label>
               <textarea
@@ -114,6 +117,13 @@
                 required
               ></textarea>
             </div>
+            <!-- hidden attribute for questionId -->
+            <input
+              type="number"
+              hidden
+              name="questionId"
+              value="<%= question.id %>"
+            />
             <button type="submit" class="btn btn-primary">Enviar</button>
           </form>
         </div>
@@ -122,54 +132,54 @@
 
     <!-- Script para definir a melhor resposta -->
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const buttons = document.querySelectorAll(".mark-best-btn");
+      // document.addEventListener("DOMContentLoaded", function () {
+      //   const buttons = document.querySelectorAll(".mark-best-btn");
 
-        buttons.forEach((button) => {
-          button.addEventListener("click", async function () {
-            const answerId = this.getAttribute("data-answer-id");
-            const questionId = this.getAttribute("data-question-id");
+      //   buttons.forEach((button) => {
+      //     button.addEventListener("click", async function () {
+      //       const answerId = this.getAttribute("data-answer-id");
+      //       const questionId = this.getAttribute("data-question-id");
 
-            try {
-              const response = await fetch(
-                `/q/${questionId}/answers/${answerId}/best`,
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                }
-              );
+      //       try {
+      //         const response = await fetch(
+      //           `/q/${questionId}/answers/${answerId}/best`,
+      //           {
+      //             method: "POST",
+      //             headers: {
+      //               "Content-Type": "application/json",
+      //             },
+      //           }
+      //         );
 
-              if (response.ok) {
-                document.querySelectorAll(".best-answer").forEach((el) => {
-                  el.classList.remove("best-answer");
-                  const badge = el.querySelector(".best-answer-badge");
-                  if (badge) {
-                    badge.remove();
-                  }
-                });
+      //         if (response.ok) {
+      //           document.querySelectorAll(".best-answer").forEach((el) => {
+      //             el.classList.remove("best-answer");
+      //             const badge = el.querySelector(".best-answer-badge");
+      //             if (badge) {
+      //               badge.remove();
+      //             }
+      //           });
 
-                const answerCard = this.closest(".answer-card");
-                answerCard.classList.add("best-answer");
-                const badge = document.createElement("div");
-                badge.classList.add("best-answer-badge");
-                badge.innerText = "Melhor Resposta";
-                answerCard.querySelector(".card-body").prepend(badge);
+      //           const answerCard = this.closest(".answer-card");
+      //           answerCard.classList.add("best-answer");
+      //           const badge = document.createElement("div");
+      //           badge.classList.add("best-answer-badge");
+      //           badge.innerText = "Melhor Resposta";
+      //           answerCard.querySelector(".card-body").prepend(badge);
 
-                const answersContainer =
-                  document.getElementById("answers-container");
-                answersContainer.prepend(answerCard);
-              } else {
-                alert("Erro ao marcar a resposta como a melhor.");
-              }
-            } catch (error) {
-              console.error("Erro:", error);
-              alert("Erro ao marcar a resposta como a melhor.");
-            }
-          });
-        });
-      });
+      //           const answersContainer =
+      //             document.getElementById("answers-container");
+      //           answersContainer.prepend(answerCard);
+      //         } else {
+      //           alert("Erro ao marcar a resposta como a melhor.");
+      //         }
+      //       } catch (error) {
+      //         console.error("Erro:", error);
+      //         alert("Erro ao marcar a resposta como a melhor.");
+      //       }
+      //     });
+      //   });
+      // });
     </script>
   </body>
 </html>

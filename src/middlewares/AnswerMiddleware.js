@@ -1,10 +1,11 @@
 const zod = require("../lib/zod");
 const { renderTemplate } = require("../utils");
 
-const QuestionService = require("../services/QuestionService");
+const AnswerService = require("../services/AnswerService");
 
 const answerSchema = zod.object({
-  content: zod.string().min(1),
+  questionId: zod.union([zod.number(), zod.string().transform(Number)]),
+  content: zod.string().min(1).max(1000),
 });
 
 module.exports = {
@@ -21,20 +22,23 @@ module.exports = {
 
     return renderTemplate(res, "question", {
       errors: formatted,
-      data: rawData,
-      validated: true,
+      data: {
+        question: res.locals.question,
+        answers: res.locals.question.answers,
+        ...rawData,
+      },
     });
   },
 
-  async findQuestion(req, res, next) {
-    const questionId = req.params.questionId || req.body.questionId;
-    const question = await QuestionService.getQuestion(questionId);
+  async findAnswer(req, res, next) {
+    const answerId = req.params.answerId || req.body.answerId;
+    const answer = await AnswerService.findAnswerById(answerId);
 
-    if (!question) {
+    if (!answer) {
       return res.render("404");
     }
 
-    res.locals.question = question;
+    res.locals.answer = answer;
     return next();
   },
 };
