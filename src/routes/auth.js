@@ -6,8 +6,15 @@ const RegisterMiddleware = require("../middlewares/RegisterMiddleware");
 
 const LoginController = require("../controllers/LoginController");
 const RegisterController = require("../controllers/RegisterController");
+const LogoutController = require("../controllers/LogoutController");
 
 const router = express.Router();
+
+router.get(
+  "/logout",
+  AuthMiddleware.ensureUserIsAuthenticated,
+  LogoutController.index
+);
 
 router.use(AuthMiddleware.ensureUserIsNotAuthenticated);
 router.get("/login", LoginController.index);

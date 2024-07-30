@@ -2,20 +2,28 @@ const AuthService = require("../services/AuthService");
 const UserService = require("../services/UserService");
 const { setJwtCookie } = require("../utils");
 
+const buildGlobalSuccess = (queryParams) => {
+  if (queryParams?.logout === "true") {
+    return "Você saiu com sucesso";
+  } else if (queryParams?.registered === "true") {
+    return "Usuário registrado com sucesso";
+  } else {
+    return null;
+  }
+};
+
+const buildGlobalDanger = (queryParams) => {
+  if (queryParams?.error === "unauthenticated") {
+    return "Faça login para continuar sua navegação";
+  }
+
+  return null;
+};
+
 const buildAlertsObject = (queryParams) => {
-  const globalSuccess =
-    queryParams?.registered === "true"
-      ? "Usuário registrado com sucesso"
-      : null;
-
-  const globalDanger =
-    queryParams?.error === "unauthenticated"
-      ? "Faça login para continuar sua navegação"
-      : null;
-
   return {
-    globalSuccess,
-    globalDanger,
+    globalSuccess: buildGlobalSuccess(queryParams),
+    globalDanger: buildGlobalDanger(queryParams),
   };
 };
 
