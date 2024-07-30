@@ -9,14 +9,21 @@ module.exports = {
       return null;
     }
 
-    const data = {
-      ...answer,
-      authorId: author.id,
-    };
-
-    return await prisma.answer.create({
-      data,
+    const newAnswer = await prisma.answer.create({
+      data: {
+        ...answer,
+        authorId: author.id,
+      },
     });
+
+    await prisma.notifications.create({
+      data: {
+        userId: question.authorId,
+        answerId: newAnswer.id,
+      },
+    });
+
+    return newAnswer;
   },
 
   async findAnswerById(answerId) {

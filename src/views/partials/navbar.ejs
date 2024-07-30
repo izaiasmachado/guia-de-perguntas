@@ -21,7 +21,51 @@
         <button class="btn btn-outline-primary" type="submit">Buscar</button>
       </form>
     </div>
-     <% if (typeof user !== 'undefined' && user !== null) { %>
+
+    <% if (typeof user !== 'undefined' && user !== null) { %>
+    <div class="dropdown ms-2">
+      <button
+        class="btn btn-outline-secondary dropdown-toggle"
+        type="button"
+        id="inboxDropdown"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        Inbox 🔔
+      </button>
+      <ul
+        class="dropdown-menu dropdown-menu-end"
+        aria-labelledby="inboxDropdown"
+      >
+        <% if (typeof inboxMessages !== 'undefined' &&
+        Array.isArray(inboxMessages) && inboxMessages.length > 0) { %> <%
+        inboxMessages.forEach(function(message) { %>
+        <li>
+          <a
+            class="dropdown-item text-truncate"
+            href="/q/<%= message.answer.question.id %>"
+            style="<%= message.isRead ? '' : 'font-weight: bold;' %>"
+          >
+            <div>
+              <strong>Pergunta:</strong> <%= message.answer.question.title %>
+            </div>
+            <div><strong>Resposta:</strong> <%= message.answer.content %></div>
+            <div>
+              <small
+                ><em
+                  >Recebida em: <%= new Date(message.createdAt).toLocaleString()
+                  %></em
+                ></small
+              >
+            </div>
+          </a>
+        </li>
+        <% }); %> <% } else { %>
+        <li><a class="dropdown-item" href="#">No new messages</a></li>
+        <% } %>
+      </ul>
+    </div>
+
     <div class="dropdown ms-2">
       <a
         class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
@@ -30,14 +74,18 @@
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-         <strong>@<%= user.username %></strong>
+        <strong>@<%= user.username %></strong>
       </a>
 
-      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser1">
+      <ul
+        class="dropdown-menu dropdown-menu-end"
+        aria-labelledby="dropdownUser1"
+      >
         <li><a class="dropdown-item" href="/auth/logout">Sair</a></li>
       </ul>
+    </div>
+    <% } else { %>
+    <a href="/auth/login" class="btn btn-primary ms-2">Entrar</a>
+    <% } %>
   </div>
-  <% } else { %>
-  <a href="/auth/login" class="btn btn-primary ms-2">Entrar</a>
-  <% } %>
 </nav>
