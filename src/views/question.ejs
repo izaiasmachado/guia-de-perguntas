@@ -52,110 +52,13 @@
         </div>
 
         <!-- Div para exibir respostas -->
-        <div class="container mt-3">
-          <h4>Respostas</h4>
-          <hr />
-          <div id="answers-container">
-            <% if (answers.length > 0) { %>
-              <% answers.forEach((answer) => { %>
-                <div class="card mb-3 answer-card <%= answer.isBest ? 'best-answer' : '' %>" data-answer-id="<%= answer.id %>">
-                  <div class="card-body">
-                    <% if (answer.isBest) { %>
-                      <div class="best-answer-badge">Melhor Resposta</div>
-                    <% } %>
-                    <h5 class="card-title"><%= answer.author.username %></h5>
-                    <p class="card-text"><%= answer.content %></p>
-                    <p class="card-text">
-                      <small class="text-muted">
-                        Postado em <%= new Date(answer.createdAt).toLocaleString("pt-BR") %>
-                      </small>
-                    </p>
-                    <% if (question.author.id === user.id) { %>
-                      <button
-                        class="btn btn-outline-primary mark-best-btn"
-                        data-answer-id="<%= answer.id %>"
-                        data-question-id="<%= question.id %>"
-                      >
-                        Marcar como melhor resposta
-                      </button>
-                    <% } %>
-                  </div>
-                </div>
-              <% }); %>
-            <% } else { %>
-              <p>Não há respostas ainda.</p>
-            <% } %>
-          </div>
-        </div>
+        <%- include('partials/question-answers') %>
 
         <!-- Form para enviar respostas -->
-        <div class="container mt-3">
-          <hr />
-          <h4>Adicionar uma resposta</h4>
-          <form action="/q/<%= question.id %>/answers" method="POST">
-            <div class="mb-3">
-              <label for="content" class="form-label">Sua resposta</label>
-              <textarea
-                class="form-control"
-                id="content"
-                name="content"
-                rows="3"
-                required
-              ></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Enviar</button>
-          </form>
-        </div>
+        <%- include('partials/post-question-answer') %>
       </main>
+
+      <%- include('partials/footer') %>
     </div>
-
-    <!-- Script para definir a melhor resposta -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const buttons = document.querySelectorAll(".mark-best-btn");
-
-        buttons.forEach((button) => {
-          button.addEventListener("click", async function () {
-            const answerId = this.getAttribute("data-answer-id");
-            const questionId = this.getAttribute("data-question-id");
-
-            try {
-              const response = await fetch(`/q/${questionId}/answers/${answerId}/best`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              });
-
-              if (response.ok) {
-               
-                document.querySelectorAll(".best-answer").forEach((el) => {
-                  el.classList.remove("best-answer");
-                  const badge = el.querySelector('.best-answer-badge');
-                  if (badge) {
-                    badge.remove();
-                  }
-                });
-
-                const answerCard = this.closest(".answer-card");
-                answerCard.classList.add("best-answer");
-                const badge = document.createElement('div');
-                badge.classList.add('best-answer-badge');
-                badge.innerText = 'Melhor Resposta';
-                answerCard.querySelector('.card-body').prepend(badge);
-
-                const answersContainer = document.getElementById("answers-container");
-                answersContainer.prepend(answerCard);
-              } else {
-                alert("Erro ao marcar a resposta como a melhor.");
-              }
-            } catch (error) {
-              console.error("Erro:", error);
-              alert("Erro ao marcar a resposta como a melhor.");
-            }
-          });
-        });
-      });
-    </script>
   </body>
 </html>

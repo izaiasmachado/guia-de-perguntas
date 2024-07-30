@@ -1,0 +1,42 @@
+<div class="container mt-3">
+  <h4>Respostas</h4>
+  <hr />
+  <div id="answers-container">
+    <% if (answers.length > 0) { %> <% answers.forEach((answer) => { %>
+    <div
+      class="card mb-3 answer-card <%= answer.isBest ? 'best-answer' : '' %>"
+      data-answer-id="<%= answer.id %>"
+    >
+      <div class="card-body">
+        <% if (answer.isBest) { %>
+        <div class="best-answer-badge">Melhor Resposta</div>
+        <% } %>
+        <h5 class="card-title"><%= answer.author.username %></h5>
+        <p class="card-text"><%= answer.content %></p>
+        <p class="card-text">
+          <small class="text-muted">
+            Postado em <%= new Date(answer.createdAt).toLocaleString("pt-BR") %>
+          </small>
+        </p>
+        <% if (isAuthenticated && question.author.id === user?.id) { %> <% if
+        (!answer.isBest) { %>
+
+        <form action="/answer/<%= answer.id %>/mark-solution" method="POST">
+          <button class="btn btn-outline-primary mark-best-btn">
+            Marcar como melhor resposta
+          </button>
+        </form>
+        <% } else {%>
+        <form action="/answer/<%= answer.id %>/unmark-solution" method="POST">
+          <button class="btn btn-outline-danger mark-best-btn">
+            Desmarcar como melhor resposta
+          </button>
+        </form>
+        <% } %> <% } %>
+      </div>
+    </div>
+    <% }); %> <% } else { %>
+    <p>Não há respostas ainda.</p>
+    <% } %>
+  </div>
+</div>

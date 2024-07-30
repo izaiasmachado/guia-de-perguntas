@@ -13,12 +13,17 @@ module.exports = {
   },
 
   async getQuestion(questionId) {
+    if (!questionId) {
+      return null;
+    }
+
     return await prisma.question.findUnique({
       where: {
         id: Number(questionId),
       },
       include: {
         author: true,
+        answers: true,
       },
     });
   },
@@ -28,44 +33,6 @@ module.exports = {
       include: {
         author: true,
       },
-    });
-  },
-
-  async createAnswer(answer, question, author) {
-    const data = {
-      ...answer,
-      questionId: question.id,
-      authorId: author.id,
-    };
-
-    const newAnswer = await prisma.answer.create({
-      data,
-    });
-
-    await prisma.notifications.create({
-      data: {
-        userId: question.authorId,
-        answerId: newAnswer.id,
-      },
-    });
-  },
-
-  async getAnswers(questionId) {
-    return await prisma.answer.findMany({
-      where: {
-        questionId: Number(questionId),
-      },
-      include: {
-        author: true,
-      },
-      orderBy: [
-        {
-          isBest: "desc",
-        },
-        {
-          createdAt: "asc",
-        },
-      ],
     });
   },
 
@@ -92,29 +59,36 @@ module.exports = {
   async markAsBestAnswer(answerId) {
     const answer = await prisma.answer.findUnique({
       where: { id: Number(answerId) },
-      include: { question: true },
     });
 
-    if (!answer) {
-      throw new Error("Resposta não encontrada");
+    if (!answerId || !answer) {
+      return;
     }
 
-    await prisma.answer.updateMany({
-      where: {
-        questionId: answer.questionId,
-        isBest: true,
-      },
+    await prisma.question.update({
+      where: { id: Number(answer.questionId) },
       data: {
-        isBest: false,
+        bestAnswerId: answer.id,
+      },
+    });
+  },
+
+  async unmarkAsBestAnswer(answerId) {
+    const answer = await prisma.answer.findUnique({
+      where: { id: Number(answerId) },
+      include: {
+        question: true,
       },
     });
 
-    return await prisma.answer.update({
-      where: {
-        id: Number(answerId),
-      },
+    if (!answerId || !answer || answer.question.bestAnswerId !== answer.id) {
+      return;
+    }
+
+    await prisma.question.update({
+      where: { id: Number(answer.questionId) },
       data: {
-        isBest: true,
+        bestAnswerId: null,
       },
     });
   },

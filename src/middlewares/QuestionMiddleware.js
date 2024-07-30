@@ -27,7 +27,7 @@ module.exports = {
   },
 
   async findQuestion(req, res, next) {
-    const { questionId } = req.params;
+    const questionId = req.params.questionId || req.body.questionId;
     const question = await QuestionService.getQuestion(questionId);
 
     if (!question) {

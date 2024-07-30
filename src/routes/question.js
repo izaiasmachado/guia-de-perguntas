@@ -19,23 +19,10 @@ router.post(
   AskQuestionMiddleware.validateAskQuestionBody,
   AskQuestionController.create
 );
-router.post(
-  "/:questionId/answers",
-  AuthMiddleware.ensureUserIsAuthenticated,
-  QuestionMiddleware.findQuestion,
-  QuestionMiddleware.validatePostAnswerBody,
-  QuestionController.createAnswer
-);
 router.get(
   "/:questionId",
   QuestionMiddleware.findQuestion,
   QuestionController.index
-);
-router.post(
-  "/:questionId/answers/:answerId/best",
-  AuthMiddleware.ensureUserIsAuthenticated,
-  QuestionMiddleware.findQuestion,
-  QuestionController.markAsBest
 );
 
 module.exports = router;

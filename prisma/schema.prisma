@@ -8,14 +8,16 @@ datasource db {
 }
 
 model Question {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String
-  content   String
-  answers   Answer[]
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  title        String
+  content      String
+  answers      Answer[] @relation("QuestionAnswers")
+  bestAnswer   Answer?  @relation("QuestionBestAnswer", fields: [bestAnswerId], references: [id])
+  bestAnswerId Int?     @unique
+  author       User     @relation("UserQuestions", fields: [authorId], references: [id])
+  authorId     Int
 }
 
 model Profile {
@@ -26,36 +28,36 @@ model Profile {
 }
 
 model User {
-  id       Int        @id @default(autoincrement())
-  email    String     @unique
-  username String     @unique
-  name     String?
-  password String
-  posts    Question[]
-  profile  Profile?
-  Answer   Answer[]
+  id            Int             @id @default(autoincrement())
+  email         String          @unique
+  username      String          @unique
+  name          String?
+  password      String
+  profile       Profile?
+  posts         Question[]      @relation("UserQuestions")
+  answers       Answer[]        @relation("UserAnswers")
   Notifications Notifications[]
 }
 
 model Answer {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  content    String
-  isBest     Boolean  @default(false) 
-  author     User     @relation(fields: [authorId], references: [id])
-  authorId   Int
-  question   Question @relation(fields: [questionId], references: [id])
-  questionId Int
-  notification  Notifications?
+  id           Int            @id @default(autoincrement())
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  content      String
+  author       User           @relation("UserAnswers", fields: [authorId], references: [id])
+  authorId     Int
+  question     Question       @relation("QuestionAnswers", fields: [questionId], references: [id])
+  questionId   Int
+  bestOf       Question?      @relation("QuestionBestAnswer")
+  notification Notifications?
 }
 
 model Notifications {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  user     User     @relation(fields: [userId], references: [id])
-  userId   Int
-  answer   Answer    @relation(fields: [answerId], references: [id])
-  answerId Int     @unique
-  isRead     Boolean  @default(false)
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  answer    Answer   @relation(fields: [answerId], references: [id])
+  answerId  Int      @unique
+  isRead    Boolean  @default(false)
 }
