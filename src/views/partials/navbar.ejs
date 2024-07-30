@@ -1,4 +1,7 @@
-<nav class="navbar navbar-expand-md navbar-light" style="border-bottom: 1px solid #cccccc">
+<nav
+  class="navbar navbar-expand-md navbar-light"
+  style="border-bottom: 1px solid #cccccc"
+>
   <div class="container-fluid">
     <a class="navbar-brand" href="/">Guia de Perguntas</a>
 
@@ -19,5 +22,24 @@
       </form>
     </div>
     <a href="/q/ask" class="btn btn-primary ms-2">Perguntar</a>
+
+     <% if (typeof user !== 'undefined' && user !== null) { %>
+    <div class="dropdown ms-2">
+      <a
+        class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+        href="#"
+        id="dropdownUser1"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+         <strong>@<%= user.username %></strong>
+      </a>
+
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser1">
+        <li><a class="dropdown-item" href="/auth/logout">Sair</a></li>
+      </ul>
   </div>
+  <% } else { %>
+  <a href="/auth/login" class="btn btn-primary ms-2">Logar</a>
+  <% } %>
 </nav>
