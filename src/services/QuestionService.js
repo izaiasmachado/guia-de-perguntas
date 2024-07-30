@@ -38,8 +38,15 @@ module.exports = {
       authorId: author.id,
     };
 
-    await prisma.answer.create({
+    const newAnswer = await prisma.answer.create({
       data,
+    });
+
+    await prisma.notifications.create({
+      data: {
+        userId: question.authorId,
+        answerId: newAnswer.id,
+      },
     });
   },
 
@@ -53,10 +60,10 @@ module.exports = {
       },
       orderBy: [
         {
-          isBest: 'desc',
+          isBest: "desc",
         },
         {
-          createdAt: 'asc',
+          createdAt: "asc",
         },
       ],
     });
@@ -78,12 +85,11 @@ module.exports = {
           },
         ],
       },
-      include: { author: true}
+      include: { author: true },
     });
   },
-  
+
   async markAsBestAnswer(answerId) {
-    
     const answer = await prisma.answer.findUnique({
       where: { id: Number(answerId) },
       include: { question: true },
