@@ -1,8 +1,11 @@
-<nav class="navbar navbar-expand-md navbar-light" style="border-bottom: 1px solid #cccccc">
+<nav
+  class="navbar navbar-expand-md navbar-light"
+  style="border-bottom: 1px solid #cccccc"
+>
   <div class="container-fluid">
     <a class="navbar-brand" href="/">Guia de Perguntas</a>
 
-    <div class="collapse navbar-collapse me-2" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <!-- Outros itens do menu podem ficar aqui -->
       </ul>
@@ -18,7 +21,9 @@
         <button class="btn btn-outline-primary" type="submit">Buscar</button>
       </form>
     </div>
-    <div class="dropdown">
+
+    <% if (typeof user !== 'undefined' && user !== null) { %>
+    <div class="dropdown ms-2">
       <button
         class="btn btn-outline-secondary dropdown-toggle"
         type="button"
@@ -28,20 +33,29 @@
       >
         Inbox 🔔
       </button>
-      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="inboxDropdown">
-        <% if (typeof inboxMessages !== 'undefined' && Array.isArray(inboxMessages) &&
-        inboxMessages.length > 0) { %> <% inboxMessages.forEach(function(message) { %>
+      <ul
+        class="dropdown-menu dropdown-menu-end"
+        aria-labelledby="inboxDropdown"
+      >
+        <% if (typeof inboxMessages !== 'undefined' &&
+        Array.isArray(inboxMessages) && inboxMessages.length > 0) { %> <%
+        inboxMessages.forEach(function(message) { %>
         <li>
           <a
             class="dropdown-item text-truncate"
             href="/q/<%= message.answer.question.id %>"
             style="<%= message.isRead ? '' : 'font-weight: bold;' %>"
           >
-            <div><strong>Pergunta:</strong> <%= message.answer.question.title %></div>
+            <div>
+              <strong>Pergunta:</strong> <%= message.answer.question.title %>
+            </div>
             <div><strong>Resposta:</strong> <%= message.answer.content %></div>
             <div>
               <small
-                ><em>Recebida em: <%= new Date(message.createdAt).toLocaleString() %></em></small
+                ><em
+                  >Recebida em: <%= new Date(message.createdAt).toLocaleString()
+                  %></em
+                ></small
               >
             </div>
           </a>
@@ -51,6 +65,27 @@
         <% } %>
       </ul>
     </div>
-    <a href="/q/ask" class="btn btn-primary ms-2">Perguntar</a>
+
+    <div class="dropdown ms-2">
+      <a
+        class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+        href="#"
+        id="dropdownUser1"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <strong>@<%= user.username %></strong>
+      </a>
+
+      <ul
+        class="dropdown-menu dropdown-menu-end"
+        aria-labelledby="dropdownUser1"
+      >
+        <li><a class="dropdown-item" href="/auth/logout">Sair</a></li>
+      </ul>
+    </div>
+    <% } else { %>
+    <a href="/auth/login" class="btn btn-primary ms-2">Entrar</a>
+    <% } %>
   </div>
 </nav>
