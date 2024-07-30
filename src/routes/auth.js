@@ -1,8 +1,3 @@
-/**
- * Rotas que podem ser acessadas somente por usuários
- * não autenticados
- */
-
 const express = require("express");
 
 const AuthMiddleware = require("../middlewares/AuthMiddleware");

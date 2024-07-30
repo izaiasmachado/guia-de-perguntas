@@ -28,4 +28,8 @@ router.post(
   AnswerController.unmarkAsBest
 );
 
+router.use((req, res) => {
+  res.redirect("/");
+});
+
 module.exports = router;
