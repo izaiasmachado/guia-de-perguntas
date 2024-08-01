@@ -1,6 +1,15 @@
+body {
+  min-width: 350px;
+}
+
 .full-logo-container {
   max-width: 300px;
   min-width: 200px;
+}
+
+.small-logo-container {
+  max-width: 80px;
+  min-width: 50px;
 }
 
 .logo-container img {
@@ -14,8 +23,8 @@
   align-items: center;
   justify-content: center;
   transition: all 0.3s;
-  width: 37px;
-  height: 37px;
+  width: 35px;
+  height: 35px;
   background-color: transparent;
   border: none;
 }
