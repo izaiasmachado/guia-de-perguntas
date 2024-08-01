@@ -9,6 +9,23 @@
   display: block;
 }
 
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  width: 37px;
+  background-color: transparent;
+  border: none;
+}
+
+.btn-icon img {
+  opacity: 0.8;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 .divider:after,
 .divider:before {
   content: "";
