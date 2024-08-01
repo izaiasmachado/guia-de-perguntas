@@ -1,3 +1,11 @@
+## Pré-requisitos
+
+Antes de começar, certifique-se de ter os seguintes componentes instalados em sua máquina:
+
+- **Node.js** (versão 20.9.0): [Download Node.js](https://nodejs.org/)
+- **VSCode**: [Download VSCode](https://code.visualstudio.com/)
+- **Docker** : [Download Docker](https://www.docker.com/get-started)
+
 ## Como executar o projeto localmente
 
 1. Clone o projeto na sua máquina local:
