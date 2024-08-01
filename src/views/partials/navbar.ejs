@@ -16,7 +16,7 @@
   </div>
 
   <div
-    class="navbar-content w-fit-content gap-2 d-flex justify-content-end align-items-center"
+    class="navbar-content w-auto gap-2 d-flex justify-content-end align-items-center"
   >
     <div class="d-none d-md-block"><%- include('navbar-search') %></div>
 
@@ -40,16 +40,24 @@
     </div>
 
     <% if (typeof user !== 'undefined' && user !== null) { %>
-    <div class="dropdown">
+    <div class="dropdown ms-2">
       <button
-        class="btn btn-outline-secondary dropdown-toggle"
+        class="btn-icon d-flex"
         type="button"
         id="inboxDropdown"
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        Inbox 🔔
+        <img src="/public/img/inbox-icon.svg" alt="Pesquisar" />
+
+        <% if (typeof inboxMessages !== 'undefined' &&
+        Array.isArray(inboxMessages) && inboxMessages.length > 0) { %>
+        <span class="badge rounded-pill bg-danger align-self-start">
+          <%= inboxMessages.length %>
+        </span>
+        <% } %>
       </button>
+
       <ul
         class="dropdown-menu dropdown-menu-end"
         aria-labelledby="inboxDropdown"
@@ -78,7 +86,7 @@
           </a>
         </li>
         <% }); %> <% } else { %>
-        <li><a class="dropdown-item" href="#">No new messages</a></li>
+        <li><a class="dropdown-item" href="#"> Sem notificações </a></li>
         <% } %>
       </ul>
     </div>
