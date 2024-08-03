@@ -1,6 +1,12 @@
+<h1 align="center"><img width="800px" src="docs/img/logo-full.svg"></h1>
+
 ## Objetivos do Projeto:
 
 O objetivo do projeto é desenvolver uma plataforma de perguntas e respostas utilizando MySQL como banco de dados e frameworks back-end e front-end, além de outras tecnologias.
+
+## Arquitetura da Solução
+
+![Arquitetura da solução](./docs/img/architecture.png)
 
 ## Pré-requisitos
 
@@ -28,6 +34,8 @@ Antes de começar, certifique-se de ter os seguintes componentes instalados em s
 git clone https://github.com/izaiasmachado/guia-de-perguntas.git
 `````
 
+<h1 align="center"><img width="600px" src="docs/img/image_install1.png"></h1>
+
 2. Modifique o nome do arquivo `.env.example` para `.env`
 3. Execute o seguinte comando para criar o container docker contendo o MySQL
 
@@ -35,11 +43,15 @@ git clone https://github.com/izaiasmachado/guia-de-perguntas.git
 docker compose up -d
 ````
 
+<h1 align="center"><img width="600px" src="docs/img/image_install2.png"></h1>
+
 4. Execute o seguinte comando para instalar as dependências do projeto
 
 ````bash
 npm install
 ````
+
+<h1 align="center"><img width="800px" src="docs/img/image_install3.png"></h1>
 
 5. Execute o seguinte comando para executar as migrations e criar o banco de dados
 
@@ -47,11 +59,19 @@ npm install
 npx prisma db push
 ````
 
+<h1 align="center"><img width="600px" src="docs/img/image_install4.png"></h1>
+
 6. Execute o seguinte comando para rodar a aplicação localmente
 
 ````bash
 npm run dev
 ````
+
+<h1 align="center"><img width="600px" src="docs/img/image_install5.png"></h1>
+
+7. O site abrirá altomaticamente após isso
+
+<h1 align="center"><img width="800px" src="docs/img/image_install6.png"></h1>
 
 | <img src="https://avatars.githubusercontent.com/u/108894922?s=400&u=fac2d2fe359a5c2c09d77bcdab67f561c2c8cc1d&v=4" width = "120px"><br><strong>Gabriel Vasconcelos</strong> | <img src="https://avatars0.githubusercontent.com/u/47287096?v=3&s=115" width = "120px" ><br><strong>Izaias Machado</strong> | <img src="https://avatars.githubusercontent.com/u/66041553?v=4" width = "120px" ><br><strong>Marcos Vinícius</strong> | <img src="https://avatars0.githubusercontent.com/u/70725719?v=3&s=115" width = "120px"><br><strong>William Lima</strong> | <img src="https://avatars0.githubusercontent.com/u/112739407?v=3&s=115" width = "120px"><br><strong>Yann Lucca</strong> |
 | :---------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: |
