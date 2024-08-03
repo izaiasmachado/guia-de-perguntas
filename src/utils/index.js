@@ -1,6 +1,9 @@
 const InboxService = require("../services/InboxService");
+const { GUIAPERGUNTAS_NODE_ENV } = require("../lib/environment");
 
-const COOKIE_OPTIONS = "HttpOnly; Secure; SameSite=Strict; Path=/";
+const cookiesSecurity =
+  GUIAPERGUNTAS_NODE_ENV === "production" ? "Secure; " : "";
+const COOKIE_OPTIONS = `HttpOnly; SameSite=Strict; Path=/; ${cookiesSecurity}`;
 
 function setJwtCookie(res, jwt) {
   res.header("Set-Cookie", `authorization=${jwt}; ${COOKIE_OPTIONS}`);

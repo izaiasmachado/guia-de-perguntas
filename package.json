@@ -6,7 +6,8 @@
   "scripts": {
     "start-db": "docker-compose up -d",
     "start": "node src/server",
-    "dev": "node --watch src/server"
+    "dev": "node --watch src/server",
+    "start:migrate:prod": "npx prisma db push && npm start"
   },
   "keywords": [],
   "author": "",
