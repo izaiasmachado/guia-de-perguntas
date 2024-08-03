@@ -1,0 +1,22 @@
+name: Deploy
+on:
+  push:
+    # branches:
+    #   - main
+
+jobs:
+  push-to-registry:
+    name: Push to DockerHub Registry
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Login to DockerHub
+        run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/queue-underflow .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/queue-underflow
