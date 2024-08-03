@@ -7,5 +7,13 @@
     aria-label="Pesquisa"
     value="<%= typeof search !== 'undefined' ? search : '' %>"
   />
-  <button class="btn btn-outline-primary" type="submit">Buscar</button>
+  <button
+    class="btn"
+    type="submit"
+    style="background-color: white; border-color: #e363aa; color: #e363aa"
+    onmouseover="this.style.backgroundColor='#E363AA';this.style.color='white';"
+    onmouseout="this.style.backgroundColor='white';this.style.color='#E363AA';"
+  >
+    Buscar
+  </button>
 </form>

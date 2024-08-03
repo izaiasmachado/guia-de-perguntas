@@ -3,13 +3,23 @@
   <hr />
   <div id="answers-container">
     <% if (answers.length > 0) { %> <% answers.forEach((answer) => { %>
-    <div
-      class="card mb-3 answer-card <%= answer.isBest ? 'best-answer' : '' %>"
-      data-answer-id="<%= answer.id %>"
-    >
+    <div class="card mb-3 answer-card" data-answer-id="<%= answer.id %>">
       <div class="card-body">
         <% if (answer.isBest) { %>
-        <div class="best-answer-badge">Melhor Resposta</div>
+        <div
+          class="badge text-white"
+          style="
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            padding: 5px 10px;
+            font-weight: bold;
+            border-radius: 3px;
+            background-color: #e363aa;
+          "
+        >
+          Melhor Resposta
+        </div>
         <% } %>
         <h5 class="card-title"><%= answer.author.username %></h5>
         <p class="card-text"><%= answer.content %></p>
@@ -18,17 +28,25 @@
             Postado em <%= new Date(answer.createdAt).toLocaleString("pt-BR") %>
           </small>
         </p>
-        <% if (isAuthenticated && question.author.id === user?.id) { %> <% if
-        (!answer.isBest) { %>
-
+        <% if (isAuthenticated && question.author.id === user?.id) { %> <% if (!answer.isBest) { %>
         <form action="/answer/<%= answer.id %>/mark-solution" method="POST">
-          <button class="btn btn-outline-primary mark-best-btn">
+          <button
+            class="btn"
+            style="background-color: white; border-color: #e363aa; color: #e363aa"
+            onmouseover="this.style.backgroundColor='#E363AA';this.style.color='white';"
+            onmouseout="this.style.backgroundColor='white';this.style.color='#E363AA';"
+          >
             Marcar como melhor resposta
           </button>
         </form>
-        <% } else {%>
+        <% } else { %>
         <form action="/answer/<%= answer.id %>/unmark-solution" method="POST">
-          <button class="btn btn-outline-danger mark-best-btn">
+          <button
+            class="btn"
+            style="background-color: white; border-color: #e363aa; color: #e363aa"
+            onmouseover="this.style.backgroundColor='#E363AA';this.style.color='white';"
+            onmouseout="this.style.backgroundColor='white';this.style.color='#E363AA';"
+          >
             Desmarcar como melhor resposta
           </button>
         </form>

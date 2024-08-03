@@ -2,27 +2,38 @@
 <html lang="pt-BR">
   <head>
     <%- include('partials/head') %>
+    <!-- Inclua o CSS do Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css"
+    />
   </head>
-  <body class="container-fluid p-0 m-0 h-100" style="min-height: 100vh;">
-    <div class="d-flex flex-column justify-content-between" style="min-height: 100vh;">
+  <body class="container-fluid p-0 m-0 h-100" style="min-height: 100vh">
+    <div class="d-flex flex-column justify-content-between" style="min-height: 100vh">
       <%- include('partials/navbar') %>
-      <main style="flex:1">
+      <main style="flex: 1">
         <div class="container col-11 col-md-8 mt-3 mb-3">
-          <div
-          class="d-flex justify-content-between align-items-center pb-3 pt-3"
-          >
+          <div class="d-flex justify-content-between align-items-center pb-3 pt-3">
             <h2>Perguntas do momento</h2>
-            <a href="/q/ask" class="btn btn-primary ms-2">Nova pergunta</a>
+            <a
+              href="/q/ask"
+              class="btn text-white"
+              style="background-color: #e363aa; border-color: #d55497"
+              onmouseover="this.style.backgroundColor='#D55497';this.style.borderColor='#C94584';"
+              onmouseout="this.style.backgroundColor='#E363AA';this.style.borderColor='#D55497';"
+            >
+              Nova pergunta
+            </a>
           </div>
 
           <div class="container flex-column mb-3">
-            <% for (let i=0;i<questions.length;i++){ %>
-              <div class="row mb-3">
-                <%- include('partials/card-pergunta', { question: questions[i] }) %>
-              </div>
+            <% for (let i = 0; i < questions.length; i++) { %>
+            <div class="row mb-3">
+              <%- include('partials/card-pergunta', { question: questions[i] }) %>
+            </div>
             <% } %>
           </div>
-          </div>
+        </div>
       </main>
       <%- include('partials/footer') %>
     </div>

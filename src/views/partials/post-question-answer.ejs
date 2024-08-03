@@ -4,15 +4,17 @@
   <form action="/answer" method="POST">
     <div class="mb-3">
       <label for="content" class="form-label">Sua resposta</label>
-      <textarea
-        class="form-control"
-        id="content"
-        name="content"
-        rows="3"
-        required
-      ></textarea>
+      <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
     </div>
     <input type="number" hidden name="questionId" value="<%= question.id %>" />
-    <button type="submit" class="btn btn-primary">Enviar</button>
+    <button
+      type="submit"
+      class="btn"
+      style="background-color: #e363aa; border-color: #e363aa; color: white"
+      onmouseover="this.style.backgroundColor='#D24D8E';this.style.color='white';"
+      onmouseout="this.style.backgroundColor='#E363AA';this.style.color='white';"
+    >
+      Enviar
+    </button>
   </form>
 </div>
