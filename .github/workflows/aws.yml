@@ -21,26 +21,26 @@ jobs:
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/queue-underflow .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/queue-underflow
 
-deploy-production:
-  name: Deploy production environment to AWS
-  runs-on: ubuntu-latest
-  needs: push-to-registry
-  environment:
-    name: production
-    # url: https://api.mandacarubroker.com.br/docs
-  steps:
-    - name: Save SSH private key to file
-      run: |
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key
-        chmod 400 private_key
+  deploy-production:
+    name: Deploy production environment to AWS
+    runs-on: ubuntu-latest
+    needs: push-to-registry
+    environment:
+      name: production
+      # url: https://api.mandacarubroker.com.br/docs
+    steps:
+      - name: Save SSH private key to file
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key
+          chmod 400 private_key
 
-    - name: Deploy to Azure VM and run Docker
-      run:
-        ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.AWS_VM_USER }}@${{ secrets.AWS_VM_IP }} '
-        sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/gp || true &&
-        sudo docker stop ${{ vars.CONTAINER_NAME }} || true &&
-        sudo docker rm ${{ vars.CONTAINER_NAME }} || true &&
-        sudo docker run --log-opt labels=applications,environment --restart unless-stopped --name ${{ vars.CONTAINER_NAME }} \
-        -e GUIAPERGUNTAS_MYSQL_URL=${{ secrets.GUIAPERGUNTAS_MYSQL_URL }} \
-        -e GUIAPERGUNTAS_JWT_SECRET=${{ secrets.GUIAPERGUNTAS_JWT_SECRET }} \
-        -p ${{ secrets.GUIAPERGUNTAS_PORT }}:3333 -d ${{ secrets.DOCKERHUB_USERNAME }}/gp'
+      - name: Deploy to Azure VM and run Docker
+        run:
+          ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.AWS_VM_USER }}@${{ secrets.AWS_VM_IP }} '
+          sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/gp || true &&
+          sudo docker stop ${{ vars.CONTAINER_NAME }} || true &&
+          sudo docker rm ${{ vars.CONTAINER_NAME }} || true &&
+          sudo docker run --log-opt labels=applications,environment --restart unless-stopped --name ${{ vars.CONTAINER_NAME }} \
+          -e GUIAPERGUNTAS_MYSQL_URL=${{ secrets.GUIAPERGUNTAS_MYSQL_URL }} \
+          -e GUIAPERGUNTAS_JWT_SECRET=${{ secrets.GUIAPERGUNTAS_JWT_SECRET }} \
+          -p ${{ secrets.GUIAPERGUNTAS_PORT }}:3333 -d ${{ secrets.DOCKERHUB_USERNAME }}/gp'
