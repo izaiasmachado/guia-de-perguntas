@@ -12,7 +12,7 @@ model Question {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   title        String
-  content      String
+  content      String   @db.Text
   answers      Answer[] @relation("QuestionAnswers")
   bestAnswer   Answer?  @relation("QuestionBestAnswer", fields: [bestAnswerId], references: [id])
   bestAnswerId Int?     @unique
@@ -43,7 +43,7 @@ model Answer {
   id           Int            @id @default(autoincrement())
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
-  content      String
+  content      String         @db.Text
   author       User           @relation("UserAnswers", fields: [authorId], references: [id])
   authorId     Int
   question     Question       @relation("QuestionAnswers", fields: [questionId], references: [id])
