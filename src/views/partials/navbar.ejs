@@ -37,18 +37,18 @@
       </div>
     </div>
 
-    <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
+    <% if (typeof user !== 'undefined' && user !== null) { %>
     <div
-      class="dropdown <%- typeof inboxMessages !== 'undefined' && Array.isArray(inboxMessages) && inboxMessages.length > 0 ? 'ms-2' : '' %>"
+      class="dowpdown d-flex <%- typeof inboxMessages !== 'undefined' && Array.isArray(inboxMessages) && inboxMessages.length > 0 ? 'ms-2' : '' %>"
     >
       <button
-        class="btn-icon d-flex"
+        class="btn-icon"
         type="button"
         id="inboxDropdown"
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        <img src="/public/img/inbox-icon.svg" alt="Pesquisar" />
+        <img src="/public/img/inbox-icon.svg" alt="Notificações" />
 
         <% if (typeof inboxMessages !== 'undefined' &&
         Array.isArray(inboxMessages) && inboxMessages.length > 0) { %>
@@ -58,37 +58,12 @@
         <% } %>
       </button>
 
-      <ul
-        class="dropdown-menu dropdown-menu-end"
+      <div
+        class="dropdown-menu dropdown-menu-md-end col-12 col-md-4 col-lg-3"
         aria-labelledby="inboxDropdown"
       >
-        <% if (typeof inboxMessages !== 'undefined' &&
-        Array.isArray(inboxMessages) && inboxMessages.length > 0) { %> <%
-        inboxMessages.forEach(function(message) { %>
-        <li>
-          <a
-            class="dropdown-item text-truncate"
-            href="/q/<%= message.answer.question.id %>"
-            style="<%= message.isRead ? '' : 'font-weight: bold;' %>"
-          >
-            <div>
-              <strong>Pergunta:</strong> <%= message.answer.question.title %>
-            </div>
-            <div><strong>Resposta:</strong> <%= message.answer.content %></div>
-            <div>
-              <small
-                ><em
-                  >Recebida em: <%= new Date(message.createdAt).toLocaleString()
-                  %></em
-                ></small
-              >
-            </div>
-          </a>
-        </li>
-        <% }); %> <% } else { %>
-        <li><a class="dropdown-item" href="#"> Sem notificações </a></li>
-        <% } %>
-      </ul>
+        <%- include('navbar-inbox') %>
+      </div>
     </div>
 
     <div class="dropdown">
