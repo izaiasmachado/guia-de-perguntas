@@ -4,10 +4,9 @@
   messageIndex) { %>
   <a href="/q/<%= message.answer.question.id %>" class="text-decoration-none">
     <li class="dropdown-item d-flex flex-column gap-2">
-      <!-- top -->
       <div class="d-flex justify-content-between">
         <strong>comentário</strong>
-        <small><%= new Date(message.createdAt).toLocaleString() %></small>
+        <small id="inbox-<%= message.id %>-createdAt"></small>
       </div>
 
       <div>
@@ -21,12 +20,15 @@
         </div>
       </div>
     </li>
+    <script>
+      document.getElementById("inbox-<%= message.id %>-createdAt").innerHTML =
+        formatDateToBrowserTimezone("<%= message.createdAt %>");
+    </script>
     <% if (messageIndex !== inboxMessages.length - 1) { %>
     <li class="dropdown-divider"></li>
     <% } %> <% }); %> <% } else { %>
 
     <li><a class="dropdown-item" href="#"> Sem notificações </a></li>
   </a>
-
   <% } %>
 </div>

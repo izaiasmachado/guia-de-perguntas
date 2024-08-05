@@ -22,8 +22,8 @@
             <div class="card-text"><%= question.content %></div>
             <p class="card-text">
               <small class="text-muted">
-                Postado por <strong><%= question.author.username %></strong>
-                em <%= new Date(question.createdAt).toLocaleString("pt-BR") %>
+                Postado por <strong><%= question.author.username %></strong> em
+                <span class="d-inline" id="question-createdAt"></span>
               </small>
             </p>
           </div>
@@ -38,5 +38,10 @@
 
       <%- include('partials/footer') %>
     </div>
+
+    <script>
+      document.getElementById("question-createdAt").innerHTML =
+        formatDateToBrowserTimezone("<%= question.createdAt %>");
+    </script>
   </body>
 </html>
