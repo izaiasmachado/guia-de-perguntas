@@ -28,7 +28,7 @@
         <p class="card-text"><%= answer.content %></p>
         <p class="card-text">
           <small class="text-muted">
-            Postado em <%= new Date(answer.createdAt).toLocaleString("pt-BR") %>
+            Postado em <span id="answer-<%= answer.id %>-createdAt"></span>
           </small>
         </p>
         <% if (isAuthenticated && question.author.id === user?.id) { %> <% if
@@ -47,6 +47,11 @@
         <% } %> <% } %>
       </div>
     </div>
+
+    <script>
+      document.getElementById("answer-<%= answer.id %>-createdAt").innerHTML =
+        formatDateToBrowserTimezone("<%= answer.createdAt %>");
+    </script>
     <% }); %> <% } else { %>
     <p>Não há respostas ainda.</p>
     <% } %>
