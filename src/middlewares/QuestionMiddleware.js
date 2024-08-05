@@ -4,7 +4,7 @@ const { renderTemplate } = require("../utils");
 const QuestionService = require("../services/QuestionService");
 
 const answerSchema = zod.object({
-  content: zod.string().min(1),
+  content: zod.string().min(1).max(1000),
 });
 
 module.exports = {

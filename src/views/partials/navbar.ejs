@@ -1,72 +1,72 @@
 <nav
-  class="navbar navbar-expand-md navbar-light"
-  style="border-bottom: 1px solid #cccccc"
+  class="navbar navbar-expand-md navbar-light px-3 d-flex justify-content-between"
+  style="border-bottom: 1px solid #cccccc; height: 60px"
 >
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/">Guia de Perguntas</a>
+  <a
+    href="/"
+    class="full-logo-container logo-container collapse navbar-collapse"
+  >
+    <img src="/public/img/logo-full.svg" alt="Queue Underflow" />
+  </a>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <!-- Outros itens do menu podem ficar aqui -->
-      </ul>
-      <form class="d-flex" role="search" action="/" method="get">
-        <input
-          class="form-control me-2"
-          type="search"
-          name="search"
-          placeholder="Pesquisa"
-          aria-label="Pesquisa"
-          value="<%= typeof search !== 'undefined' ? search : '' %>"
-        />
-        <button class="btn btn-outline-primary" type="submit">Buscar</button>
-      </form>
+  <a href="/" class="small-logo-container logo-container d-block d-md-none">
+    <img src="/public/img/logo.svg" alt="Queue Underflow" />
+  </a>
+
+  <div
+    class="navbar-content w-auto gap-2 d-flex justify-content-end align-items-center"
+  >
+    <div class="d-none d-md-block"><%- include('navbar-search') %></div>
+
+    <div class="dowpdown-center d-flex d-md-none">
+      <button
+        class="btn-icon"
+        type="button"
+        id="drodownMenuSearchButton"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <img src="/public/img/search-icon.svg" alt="Pesquisar" />
+      </button>
+
+      <div
+        class="dropdown-menu dropdown-menu col-12"
+        aria-labelledby="drodownMenuSearchButton"
+      >
+        <%- include('navbar-search') %>
+      </div>
     </div>
 
     <% if (typeof user !== 'undefined' && user !== null) { %>
-    <div class="dropdown ms-2">
+    <div
+      class="dowpdown d-flex <%- typeof inboxMessages !== 'undefined' && Array.isArray(inboxMessages) && inboxMessages.length > 0 ? 'ms-2' : '' %>"
+    >
       <button
-        class="btn btn-outline-secondary dropdown-toggle"
+        class="btn-icon"
         type="button"
         id="inboxDropdown"
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        Inbox 🔔
+        <img src="/public/img/inbox-icon.svg" alt="Notificações" />
+
+        <% if (typeof inboxMessages !== 'undefined' &&
+        Array.isArray(inboxMessages) && inboxMessages.length > 0) { %>
+        <span class="badge rounded-pill bg-danger align-self-start">
+          <%= inboxMessages.length %>
+        </span>
+        <% } %>
       </button>
-      <ul
-        class="dropdown-menu dropdown-menu-end"
+
+      <div
+        class="dropdown-menu dropdown-menu-md-end col-12 col-md-5 col-lg-4 col-xl-3"
         aria-labelledby="inboxDropdown"
       >
-        <% if (typeof inboxMessages !== 'undefined' &&
-        Array.isArray(inboxMessages) && inboxMessages.length > 0) { %> <%
-        inboxMessages.forEach(function(message) { %>
-        <li>
-          <a
-            class="dropdown-item text-truncate"
-            href="/q/<%= message.answer.question.id %>"
-            style="<%= message.isRead ? '' : 'font-weight: bold;' %>"
-          >
-            <div>
-              <strong>Pergunta:</strong> <%= message.answer.question.title %>
-            </div>
-            <div><strong>Resposta:</strong> <%= message.answer.content %></div>
-            <div>
-              <small
-                ><em
-                  >Recebida em: <%= new Date(message.createdAt).toLocaleString()
-                  %></em
-                ></small
-              >
-            </div>
-          </a>
-        </li>
-        <% }); %> <% } else { %>
-        <li><a class="dropdown-item" href="#">No new messages</a></li>
-        <% } %>
-      </ul>
+        <%- include('navbar-inbox') %>
+      </div>
     </div>
 
-    <div class="dropdown ms-2">
+    <div class="dropdown">
       <a
         class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
         href="#"
@@ -85,7 +85,7 @@
       </ul>
     </div>
     <% } else { %>
-    <a href="/auth/login" class="btn btn-primary ms-2">Entrar</a>
+    <a href="/auth/login" class="btn btn-primary">Entrar</a>
     <% } %>
   </div>
 </nav>

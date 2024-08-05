@@ -1,0 +1,28 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:svgjs="http://svgjs.dev/svgjs" viewBox="0 0 90.38594665740726 51.55567181266262" height="40.22874168491219"
+    width="90.38594665740726">
+    <svg viewBox="0 0 90.38594665740726 51.55567181266262" height="51.55567181266262" width="90.38594665740726">
+        <g><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0" y="0"
+                viewBox="5.626999855041504 24.259618759155273 88.6989974975586 50.59344482421875"
+                enable-background="new 0 0 100 100" xml:space="preserve" height="51.55567181266262"
+                width="90.38594665740726" class="icon-icon-0" data-fill-palette-color="accent" id="icon-0">
+                <polygon
+                    points="14.398,59.605 16.884,54.25 11.529,51.763 12.352,54.013 5.627,56.463 6.856,59.824 13.576,57.357 "
+                    fill="#e363aa" data-fill-palette-color="accent"></polygon>
+                <rect x="-0.34" y="48.582" transform="matrix(0.3435 0.9392 -0.9392 0.3435 63.7656 13.2291)"
+                    width="45.521" height="7.284" fill="#e363aa" data-fill-palette-color="accent"></rect>
+                <rect x="36.156" y="26.774" width="7.283" height="45.518" fill="#e363aa"
+                    data-fill-palette-color="accent"></rect>
+                <rect x="57.399" y="26.774" width="7.283" height="45.519" fill="#e363aa"
+                    data-fill-palette-color="accent"></rect>
+                <rect x="46.778" y="26.774" width="7.284" height="45.519" fill="#e363aa"
+                    data-fill-palette-color="accent"></rect>
+                <polygon
+                    points="91.84,45.798 94.326,40.443 88.973,37.956 89.795,40.206 83.07,42.655 84.299,46.017 91.018,43.551 "
+                    fill="#e363aa" data-fill-palette-color="accent"></polygon>
+                <rect x="55.438" y="43.25" transform="matrix(-0.3435 -0.9392 0.9392 -0.3435 61.022 136.4384)"
+                    width="45.521" height="7.283" fill="#e363aa" data-fill-palette-color="accent"></rect>
+            </svg></g>
+    </svg>
+
+</svg>

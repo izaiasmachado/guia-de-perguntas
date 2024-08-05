@@ -1,0 +1,64 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  push-to-registry:
+    name: Push to DockerHub Registry
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Login to DockerHub
+        run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/queue-underflow .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/queue-underflow
+
+  deploy-test:
+    name: Deploy test environment to AWS
+    runs-on: ubuntu-latest
+    needs: push-to-registry
+    environment:
+      name: test
+      url: https://queueunderflow-test.izaias.me
+    steps:
+      - name: Save SSH private key to file
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key
+          chmod 400 private_key
+
+      - name: Deploy to AWS VM and run Docker
+        run:
+          ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.AWS_VM_USER }}@${{ secrets.AWS_VM_IP }} '
+          sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/queue-underflow || true &&
+          sudo docker stop ${{ vars.CONTAINER_NAME }} || true &&
+          sudo docker rm ${{ vars.CONTAINER_NAME }} || true &&
+          sudo docker run --log-opt labels=applications,environment --restart unless-stopped --name ${{ vars.CONTAINER_NAME }} -e GUIAPERGUNTAS_MYSQL_URL=${{ secrets.GUIAPERGUNTAS_MYSQL_URL }} -e GUIAPERGUNTAS_JWT_SECRET=${{ secrets.GUIAPERGUNTAS_JWT_SECRET }} -p ${{ secrets.GUIAPERGUNTAS_PORT }}:3333 -d ${{ secrets.DOCKERHUB_USERNAME }}/queue-underflow'
+
+  deploy-production:
+    name: Deploy production environment to AWS
+    runs-on: ubuntu-latest
+    needs: push-to-registry
+    environment:
+      name: production
+      url: https://queueunderflow.izaias.me
+    steps:
+      - name: Save SSH private key to file
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key
+          chmod 400 private_key
+
+      - name: Deploy to AWS VM and run Docker
+        run:
+          ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.AWS_VM_USER }}@${{ secrets.AWS_VM_IP }} '
+          sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/queue-underflow || true &&
+          sudo docker stop ${{ vars.CONTAINER_NAME }} || true &&
+          sudo docker rm ${{ vars.CONTAINER_NAME }} || true &&
+          sudo docker run --log-opt labels=applications,environment --restart unless-stopped --name ${{ vars.CONTAINER_NAME }} -e GUIAPERGUNTAS_MYSQL_URL=${{ secrets.GUIAPERGUNTAS_MYSQL_URL }} -e GUIAPERGUNTAS_JWT_SECRET=${{ secrets.GUIAPERGUNTAS_JWT_SECRET }} -p ${{ secrets.GUIAPERGUNTAS_PORT }}:3333 -d ${{ secrets.DOCKERHUB_USERNAME }}/queue-underflow'
