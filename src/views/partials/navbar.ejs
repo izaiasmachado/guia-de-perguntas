@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <% if (typeof user !== 'undefined' && user !== null) { %>
+    <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
     <div
       class="dropdown <%- typeof inboxMessages !== 'undefined' && Array.isArray(inboxMessages) && inboxMessages.length > 0 ? 'ms-2' : '' %>"
     >
