@@ -33,15 +33,14 @@
         </p>
         <% if (isAuthenticated && question.author.id === user?.id) { %> <% if
         (!answer.isBest) { %>
-
         <form action="/answer/<%= answer.id %>/mark-solution" method="POST">
-          <button class="btn btn-outline-primary mark-best-btn">
+          <button class="btn btn-sm btn-outline-primary mark-best-btn">
             Marcar como melhor resposta
           </button>
         </form>
         <% } else {%>
         <form action="/answer/<%= answer.id %>/unmark-solution" method="POST">
-          <button class="btn btn-outline-danger mark-best-btn">
+          <button class="btn btn-sm btn-outline-danger mark-best-btn">
             Desmarcar como melhor resposta
           </button>
         </form>
