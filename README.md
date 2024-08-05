@@ -1,7 +1,7 @@
 <h1 align="center"><img width="500px" src="docs/img/logo-full.svg"></h1>
 
 <p align="center">
-  <strong>O mais novo Guia de Perguntas!</strong>
+  <strong>O mais novo guia de perguntas!</strong>
 </p>
 
 O projeto consiste em um fórum, em que podem ser postadas perguntas e feitas respostas. A aplicação foi hospedada em um [ambiente de testes](https://queueunderflow-test.izaias.me
@@ -37,6 +37,7 @@ Antes de começar, certifique-se de ter os seguintes componentes instalados em s
 4. Instale as dependências do projeto `npm install`
 5. Execute as migrations no banco de dados `npx prisma db push`
 6. Execute o comando para rodar a aplicação localmente `npm run dev`
+7. Acesse a aplicação em `http://localhost:3333`
 
 **Obs:** Caso deseje hospedar um banco próprio, altere o arquivo `.env` com as credenciais desse banco.
 
