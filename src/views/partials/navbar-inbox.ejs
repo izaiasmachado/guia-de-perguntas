@@ -1,0 +1,32 @@
+<div>
+  <% if (typeof inboxMessages !== 'undefined' && Array.isArray(inboxMessages) &&
+  inboxMessages.length > 0) { %> <% inboxMessages.forEach(function(message,
+  messageIndex) { %>
+  <a href="/q/<%= message.answer.question.id %>" class="text-decoration-none">
+    <li class="dropdown-item d-flex flex-column gap-2">
+      <!-- top -->
+      <div class="d-flex justify-content-between">
+        <strong>comentário</strong>
+        <small><%= new Date(message.createdAt).toLocaleString() %></small>
+      </div>
+
+      <div>
+        <div class="text-truncate mb-1">
+          <%= message.answer.question.title %>
+        </div>
+        <div
+          style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap"
+        >
+          <%= message.answer.question.content %>
+        </div>
+      </div>
+    </li>
+    <% if (messageIndex !== inboxMessages.length - 1) { %>
+    <li class="dropdown-divider"></li>
+    <% } %> <% }); %> <% } else { %>
+
+    <li><a class="dropdown-item" href="#"> Sem notificações </a></li>
+  </a>
+
+  <% } %>
+</div>
