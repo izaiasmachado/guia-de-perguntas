@@ -4,9 +4,7 @@
   <strong>O mais novo guia de perguntas!</strong>
 </p>
 
-O projeto consiste em um fórum, em que podem ser postadas perguntas e feitas respostas. A aplicação foi hospedada em um [ambiente de testes](https://queueunderflow-test.izaias.me
-) e também em um [ambiente de produção](https://queueunderflow.izaias.me
-).
+O projeto consiste em um fórum, em que podem ser postadas perguntas e feitas respostas. A aplicação foi hospedada em um [ambiente de testes](https://queueunderflow-test.izaias.me) e também em um [ambiente de produção](https://queueunderflow.izaias.me). Além disso, foi disponizado [um relatório técnico da aplicação](./docs/relatorio.pdf).
 
 ## Arquitetura da Solução
 
